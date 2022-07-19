@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {ProductModel} from "../../types/product.model";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {url} from "../../utils";
+import {ProductModelDisplay} from "../../types/product-display.model";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-products-list',
@@ -7,15 +11,11 @@ import {ProductModel} from "../../types/product.model";
   styleUrls: ['./products-list.component.scss']
 })
 export class ProductsListComponent implements OnInit {
-  products: ProductModel[] = [];
+  products$: Observable<ProductModelDisplay[]> | undefined;
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.products.push({id: "1", name: "banane", category: "fructe",
-      image: "https://sapui5.hana.ondemand.com/test-resources/sap/ui/documentation/sdk/images/HT-1000.jpg", price: 2,
-      description: "descriere"}, {id: "1", name: "banane", category: "fructe",
-      image: "https://sapui5.hana.ondemand.com/test-resources/sap/ui/documentation/sdk/images/HT-1000.jpg", price: 2,
-      description: "descriere"});
+    this.products$ = this.http.get<ProductModelDisplay[]>(`${url}/products`);
   }
 }

@@ -1,1 +1,3 @@
-<p>Avem urmatorul id {{this.product.id}}</p>
+<p *ngIf="product">Avem urmatorul id {{this.product.id}}</p>
+<p *ngIf="product">{{this.product.description}}</p>
+<p *ngIf="product">{{this.product.price}}</p>
