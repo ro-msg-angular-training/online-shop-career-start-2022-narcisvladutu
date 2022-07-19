@@ -3,4 +3,5 @@
   <span>{{product.name}}</span>
   <span>{{product.price}} LEI</span>
   <span><img [src]=product.image width="200px" height="200px"></span>
+  <span><button [routerLink]="['/', 'product', product.id]">DETAILS</button></span>
 </div>
