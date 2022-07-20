@@ -63,9 +63,8 @@ export class ProductService {
   }
 
   saveOrder() {
-    console.log("Da");
     let data = {customer: "doej", products: this.order.products};
-    console.log(data);
+    this.order.products = [];
     return this.http.post(`${url}/orders`, data, { responseType: 'text' });
   }
 }
