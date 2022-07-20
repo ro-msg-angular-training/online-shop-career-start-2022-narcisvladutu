@@ -1,5 +1,5 @@
 <h2>PRODUCTS</h2>
-<button>CART</button>
+<button [routerLink]="['/', 'order']">CART</button>
 <button (click)="addToCart()">ADD</button>
 <div *ngIf="products">
   <div class="row">

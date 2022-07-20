@@ -1,0 +1,10 @@
+<h2>Shopping Cart</h2>
+<button (click)="saveOrder()">CHECKOUT</button>
+<div *ngFor="let product of products">
+  <div class="row">
+    <span>{{product.category}}</span>
+    <span>{{product.name}}</span>
+    <span>{{product.price}} LEI</span>
+    <span><div class="x"></div></span>
+  </div>
+</div>

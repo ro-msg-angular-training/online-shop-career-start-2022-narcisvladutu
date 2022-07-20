@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ProductModelDisplay} from "../types/product-display.model";
 import {url} from "../utils";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {ActivatedRoute} from "@angular/router";
 import {catchError, throwError} from "rxjs";
 import {OrderModel} from "../types/order.model";
 
@@ -11,23 +10,26 @@ import {OrderModel} from "../types/order.model";
 })
 export class ProductService {
 
-  constructor(private http: HttpClient) { }
+  order: OrderModel = {products: []}
 
-  getAllProducts(){
-    return this.http.get<ProductModelDisplay[]>(`${url}/products`).pipe(
-      catchError(this.handleError)
-    );;
+  constructor(private http: HttpClient) {
   }
 
-  getProductByID(route: ActivatedRoute){
-    return this.http.get(`${url}/products/${route.snapshot.paramMap.get('id')}`).pipe(
+  getAllProducts() {
+    return this.http.get<ProductModelDisplay[]>(`${url}/products`).pipe(
+      catchError(this.handleError)
+    );
+    ;
+  }
+
+  getProductByID(id: string) {
+    return this.http.get(`${url}/products/${id}`).pipe(
       catchError(this.handleError)
     );
   }
 
-  deleteProduct(route: ActivatedRoute){
-    console.log(route.snapshot.paramMap.get('id'));
-    return this.http.delete(`${url}/products/${route.snapshot.paramMap.get('id')}`);
+  deleteProduct(id: string) {
+    return this.http.delete(`${url}/products/${id}`);
   }
 
   handleError(error: HttpErrorResponse) {
@@ -44,7 +46,7 @@ export class ProductService {
     return throwError(() => new Error('Something bad happened; please try again later.'));
   }
 
-  actualizeOrder(selectedProductID: string, order: OrderModel){
+  actualizeOrder(selectedProductID: string, order: OrderModel) {
     if (selectedProductID !== undefined) {
       let productOrder = order.products.find(x => x.productId === selectedProductID);
       if (productOrder === undefined) {
@@ -53,6 +55,17 @@ export class ProductService {
         productOrder.quantity += 1;
       }
     }
-    return order;
+    return this.getOrder();
+  }
+
+  getOrder() {
+    return this.order;
+  }
+
+  saveOrder() {
+    console.log("Da");
+    let data = {customer: "doej", products: this.order.products};
+    console.log(data);
+    return this.http.post(`${url}/orders`, data, { responseType: 'text' });
   }
 }

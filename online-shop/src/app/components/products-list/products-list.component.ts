@@ -11,7 +11,7 @@ import {OrderModel} from "../../types/order.model";
 export class ProductsListComponent implements OnInit {
   products: ProductModelDisplay[] | undefined;
   selectedProductID: string | undefined;
-  order: OrderModel = {products: []}
+  order: OrderModel = this.productService.getOrder();
 
   constructor(private productService: ProductService) {
   }
