@@ -1,10 +1,8 @@
-import {Component, OnChanges, OnInit} from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {ProductModel} from "../../types/product.model";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
-import {url} from "../../utils";
+import {HttpClient} from "@angular/common/http";
 import {ProductService} from "../../services/product.service";
-import {ProductsListComponent} from "../products-list/products-list.component";
 import {Location} from "@angular/common";
 
 @Component({
@@ -24,7 +22,9 @@ export class ProductViewComponent implements OnInit{
   }
 
   deleteProduct() {
-    this.productService.deleteProduct(this.route).subscribe(() => this.goBack());
+    this.productService.deleteProduct(this.route).subscribe(() => {
+      alert(`${this.product?.name} has been deleted!`);
+      this.goBack()});
   }
 
   goBack(){

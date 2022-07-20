@@ -4,6 +4,7 @@ import {url} from "../utils";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
 import {catchError, throwError} from "rxjs";
+import {OrderModel} from "../types/order.model";
 
 @Injectable({
   providedIn: 'root'
@@ -41,5 +42,17 @@ export class ProductService {
     }
     // Return an observable with a user-facing error message.
     return throwError(() => new Error('Something bad happened; please try again later.'));
+  }
+
+  actualizeOrder(selectedProductID: string, order: OrderModel){
+    if (selectedProductID !== undefined) {
+      let productOrder = order.products.find(x => x.productId === selectedProductID);
+      if (productOrder === undefined) {
+        order.products.push({productId: selectedProductID, quantity: 1})
+      } else {
+        productOrder.quantity += 1;
+      }
+    }
+    return order;
   }
 }
