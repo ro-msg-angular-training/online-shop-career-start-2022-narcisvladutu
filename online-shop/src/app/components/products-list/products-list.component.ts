@@ -4,6 +4,7 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {url} from "../../utils";
 import {ProductModelDisplay} from "../../types/product-display.model";
 import {Observable} from "rxjs";
+import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-products-list',
@@ -11,11 +12,11 @@ import {Observable} from "rxjs";
   styleUrls: ['./products-list.component.scss']
 })
 export class ProductsListComponent implements OnInit {
-  products$: Observable<ProductModelDisplay[]> | undefined;
+  products: ProductModelDisplay[] | undefined;
 
-  constructor(private http: HttpClient) { }
+  constructor(private productService: ProductService, private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.products$ = this.http.get<ProductModelDisplay[]>(`${url}/products`);
+    this.productService.getAllProducts().subscribe((data) => this.products = data)
   }
 }

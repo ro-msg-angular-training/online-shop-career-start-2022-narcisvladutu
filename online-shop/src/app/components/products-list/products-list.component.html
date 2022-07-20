@@ -1,10 +1,10 @@
 <h2>PRODUCTS</h2>
-<div *ngIf="products$">
+<div *ngIf="products">
   <div class="row">
-    <span>CATEGORY</span>
-    <span>NAME</span>
-    <span>PRICE</span>
+    <span class="attribute-title">CATEGORY</span>
+    <span class="attribute-title">NAME</span>
+    <span class="attribute-title">PRICE</span>
     <span></span>
   </div>
-  <app-product *ngFor="let product of products$ | async" [product]="product"></app-product>
+  <app-product *ngFor="let product of products" [product]="product"></app-product>
 </div>

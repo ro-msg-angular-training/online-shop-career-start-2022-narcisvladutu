@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import {ProductModel} from "../../types/product.model";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {url} from "../../utils";
+import {ProductService} from "../../services/product.service";
 
 @Component({
   selector: 'app-product-view',
@@ -12,13 +13,10 @@ import {url} from "../../utils";
 export class ProductViewComponent implements OnInit {
   product: ProductModel |undefined;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {
+  constructor(private route: ActivatedRoute, private http: HttpClient, private productService: ProductService) {
   }
 
   ngOnInit(): void {
-      // @ts-ignore
-    this.http.get(`${url}/products/${this.route.snapshot.paramMap.get('id')}`).subscribe((data: ProductModel) => {
-        this.product = data;
-      })
+    this.productService.getProductByID(this.route).subscribe((data)=>this.product=<ProductModel>data);
   }
 }

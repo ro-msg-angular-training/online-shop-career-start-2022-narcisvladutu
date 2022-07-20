@@ -1,8 +1,6 @@
-export interface ProductModel{
-  id: string;
-  name: string;
-  category: string;
+import {ProductModelDisplay} from "./product-display.model";
+
+export interface ProductModel extends  ProductModelDisplay{
   image: string;
-  price: number;
   description: string;
 }
