@@ -25,7 +25,8 @@ export class ProductService {
   }
 
   deleteProduct(route: ActivatedRoute){
-
+    console.log(route.snapshot.paramMap.get('id'));
+    return this.http.delete(`${url}/products/${route.snapshot.paramMap.get('id')}`);
   }
 
   handleError(error: HttpErrorResponse) {
