@@ -1,4 +1,7 @@
+<button *ngIf="product" (click)="editProduct()" [routerLink]="['/', 'edit-product', product.id]">EDIT</button>
+<router-outlet></router-outlet>
 <button (click)="deleteProduct()">DELETE</button>
+<p *ngIf="product">{{this.product.name}}</p>
 <p *ngIf="product">Avem urmatorul id {{this.product.id}}</p>
 <p *ngIf="product">{{this.product.description}}</p>
 <p *ngIf="product">{{this.product.price}}</p>

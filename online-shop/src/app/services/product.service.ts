@@ -4,6 +4,7 @@ import {url} from "../utils";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {catchError, throwError} from "rxjs";
 import {OrderModel} from "../types/order.model";
+import {ProductModel} from "../types/product.model";
 
 @Injectable({
   providedIn: 'root'
@@ -66,5 +67,9 @@ export class ProductService {
     let data = {customer: "doej", products: this.order.products};
     this.order.products = [];
     return this.http.post(`${url}/orders`, data, { responseType: 'text' });
+  }
+
+  updateProduct(newProduct: ProductModel) {
+    return this.http.put(`${url}/products/${newProduct.id}`,newProduct)
   }
 }

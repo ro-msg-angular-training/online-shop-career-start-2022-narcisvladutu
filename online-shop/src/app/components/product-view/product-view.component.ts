@@ -36,4 +36,8 @@ export class ProductViewComponent implements OnInit {
   goBack() {
     this.location.back();
   }
+
+  editProduct() {
+
+  }
 }
