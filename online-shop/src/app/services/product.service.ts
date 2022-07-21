@@ -73,7 +73,7 @@ export class ProductService {
     return this.http.put(`${url}/products/${newProduct.id}`,newProduct)
   }
 
-  saveProduct(product: {id: any, name: any; category: any; price: any; image: any; description: any }) {
+  saveProduct(product: { name: any; category: any; price: any; image: any; description: any }) {
     return this.http.post(`${url}/products`, product, { responseType: 'text' })
   }
 }

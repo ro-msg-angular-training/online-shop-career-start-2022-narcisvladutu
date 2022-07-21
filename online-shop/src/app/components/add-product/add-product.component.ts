@@ -31,7 +31,6 @@ export class AddProductComponent implements OnInit {
 
   save() {
     let product = {
-      id: 2000,
       name: this.form?.value.name,
       category: this.form?.value.category,
       price: this.form?.value.price,
