@@ -1,7 +1,9 @@
 <h2>PRODUCTS</h2>
 <button [routerLink]="['/', 'order']">CART</button>
-<button (click)="addToCart()">ADD</button>
+<button (click)="addToCart()">ADD PRODUCT TO CART</button>
+<button [routerLink]="['/', 'add-product']">ADD PRODUCT TO CATALOGUE</button>
 <div *ngIf="products">
+  <router-outlet></router-outlet>
   <div class="row">
     <span class="attribute-title">CATEGORY</span>
     <span class="attribute-title">NAME</span>
