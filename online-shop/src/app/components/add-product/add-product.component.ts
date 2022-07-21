@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {ProductModel} from "../../types/product.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ProductService} from "../../services/product.service";
 import {Location} from "@angular/common";
@@ -30,7 +29,7 @@ export class AddProductComponent implements OnInit {
   }
 
   save() {
-    let product = {
+    const product = {
       name: this.form?.value.name,
       category: this.form?.value.category,
       price: this.form?.value.price,

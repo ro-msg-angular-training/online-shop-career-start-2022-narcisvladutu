@@ -51,7 +51,7 @@ export class EditProductComponent implements OnInit {
   update() {
     if (this.product) {
       if (!this.form.invalid) {
-        let newProduct: ProductModel = {
+        const newProduct: ProductModel = {
           id: this.product?.id,
           name: this.product.name === this.form?.value.name ? this.product.name : this.form?.value.name,
           price: this.product.price === this.form?.value.price ? this.product.price : this.form?.value.price,

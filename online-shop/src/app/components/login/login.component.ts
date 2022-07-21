@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     if (!this.form?.invalid) {
-      let credentials: CredentialsModel = {username: this.form?.value.username, password: this.form?.value.password}
+      const credentials: CredentialsModel = {username: this.form?.value.username, password: this.form?.value.password}
       this.userService.login(credentials).subscribe((data) => {
         if (data.roles) {
           this.router.navigateByUrl(`/products`);
