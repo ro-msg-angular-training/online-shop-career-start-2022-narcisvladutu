@@ -5,7 +5,6 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {catchError, throwError} from "rxjs";
 import {OrderModel} from "../types/order.model";
 import {ProductModel} from "../types/product.model";
-import {User} from "firebase";
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +20,6 @@ export class ProductService {
     return this.http.get<ProductModelDisplay[]>(`${url}/products`).pipe(
       catchError(this.handleError)
     );
-    ;
   }
 
   getProductByID(id: string) {
@@ -67,14 +65,14 @@ export class ProductService {
   saveOrder() {
     const data = {customer: localStorage.getItem("username"), products: this.order.products};
     this.order.products = [];
-    return this.http.post(`${url}/orders`, data, { responseType: 'text' });
+    return this.http.post(`${url}/orders`, data, {responseType: 'text'});
   }
 
   updateProduct(newProduct: ProductModel) {
-    return this.http.put(`${url}/products/${newProduct.id}`,newProduct)
+    return this.http.put(`${url}/products/${newProduct.id}`, newProduct)
   }
 
   saveProduct(product: { name: any; category: any; price: any; image: any; description: any }) {
-    return this.http.post(`${url}/products`, product, { responseType: 'text' })
+    return this.http.post(`${url}/products`, product, {responseType: 'text'})
   }
 }

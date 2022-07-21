@@ -1,4 +1,4 @@
-export interface CredentialsModel{
+export interface CredentialsModel {
   username: string;
   password: number;
 }

@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {CredentialsModel} from "../types/credentials.model";
-import {delay, Observable, of, tap} from "rxjs";
+import {Observable, tap} from "rxjs";
 import {Role, User} from "../types/user.model";
 import {url} from "../utils";
-import {database} from "firebase";
 
 @Injectable({
   providedIn: 'root'

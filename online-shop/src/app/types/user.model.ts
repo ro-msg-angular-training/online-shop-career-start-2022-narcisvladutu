@@ -1,5 +1,6 @@
 export type Role = "customer" | "admin" | "user"
-export interface User{
+
+export interface User {
   "username": string,
   "fullName": string,
   "roles": Role[]

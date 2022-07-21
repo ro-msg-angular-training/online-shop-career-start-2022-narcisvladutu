@@ -33,7 +33,7 @@ export class OrderComponent implements OnInit {
   }
 
   saveOrder() {
-    this.productService.saveOrder().subscribe(x => {
+    this.productService.saveOrder().subscribe(() => {
       alert(`Your order has been placed!`);
       this.goBack()
     });

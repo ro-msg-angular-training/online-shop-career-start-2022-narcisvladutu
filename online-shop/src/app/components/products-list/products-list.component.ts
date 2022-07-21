@@ -13,8 +13,6 @@ export class ProductsListComponent implements OnInit {
   products: ProductModelDisplay[] | undefined;
   selectedProductID: string | undefined;
   order: OrderModel = this.productService.getOrder();
-  hasAuthorisationOfCustomerOrAdmin: boolean =
-    this.userService.hasRoleType("customer") || this.userService.hasRoleType("admin");
   hasAuthorisationOfAdmin: boolean = this.userService.hasRoleType("admin");
   hasAuthoristaionOfCustomer: boolean = this.userService.hasRoleType("customer");
 
