@@ -50,7 +50,7 @@ export class ProductService {
 
   actualizeOrder(selectedProductID: string, order: OrderModel) {
     if (selectedProductID !== undefined) {
-      let productOrder = order.products.find(x => x.productId === selectedProductID);
+      const productOrder = order.products.find(x => x.productId === selectedProductID);
       if (productOrder === undefined) {
         order.products.push({productId: selectedProductID, quantity: 1})
       } else {
@@ -65,7 +65,7 @@ export class ProductService {
   }
 
   saveOrder() {
-    let data = {customer: "doej", products: this.order.products};
+    const data = {customer: localStorage.getItem("username"), products: this.order.products};
     this.order.products = [];
     return this.http.post(`${url}/orders`, data, { responseType: 'text' });
   }
