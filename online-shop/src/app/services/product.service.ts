@@ -5,6 +5,7 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {catchError, throwError} from "rxjs";
 import {OrderModel} from "../types/order.model";
 import {ProductModel} from "../types/product.model";
+import {User} from "firebase";
 
 @Injectable({
   providedIn: 'root'
