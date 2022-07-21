@@ -1,18 +1,36 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {CredentialsModel} from "../types/credentials.model";
-import {Observable} from "rxjs";
-import {User} from "../types/user.model";
+import {delay, Observable, of, tap} from "rxjs";
+import {Role, User} from "../types/user.model";
 import {url} from "../utils";
+import {database} from "firebase";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  currentUser: User | undefined;
 
-  constructor(private http: HttpClient) { }
+  redirectUrl: string | null = null;
+
+  constructor(private http: HttpClient) {
+  }
 
   login(credentials: CredentialsModel): Observable<User> {
-    return this.http.post<User>(`${url}/login`, credentials)
+    return this.http.post<User>(`${url}/login`, credentials).pipe(tap((user) => {
+      {
+        this.currentUser = user
+      }
+    }))
+  }
+
+  isLoggedIn() {
+    return this.currentUser != undefined
+  }
+
+  hasRoleType(role: Role) {
+    return !!this.currentUser?.roles.includes(role);
+
   }
 }

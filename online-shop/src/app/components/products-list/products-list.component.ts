@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ProductModelDisplay} from "../../types/product-display.model";
 import {ProductService} from '../../services/product.service';
 import {OrderModel} from "../../types/order.model";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-products-list',
@@ -12,8 +13,11 @@ export class ProductsListComponent implements OnInit {
   products: ProductModelDisplay[] | undefined;
   selectedProductID: string | undefined;
   order: OrderModel = this.productService.getOrder();
+  hasAuthorisationOfCustomerOrAdmin: boolean =
+    this.userService.hasRoleType("customer") || this.userService.hasRoleType("admin");
+  hasAuthorisationOfAdmin: boolean = this.userService.hasRoleType("admin");
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService, private userService: UserService) {
   }
 
   ngOnInit(): void {

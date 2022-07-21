@@ -4,6 +4,7 @@ import {ProductModel} from "../../types/product.model";
 import {HttpClient} from "@angular/common/http";
 import {ProductService} from "../../services/product.service";
 import {Location} from "@angular/common";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-product-view',
@@ -13,9 +14,10 @@ import {Location} from "@angular/common";
 export class ProductViewComponent implements OnInit {
   product: ProductModel | undefined;
   id: string | null = this.route.snapshot.paramMap.get('id');
+  hasAuthorisationOfAdmin: boolean = this.userService.hasRoleType("admin");
 
   constructor(private route: ActivatedRoute, private http: HttpClient, private productService: ProductService,
-              private location: Location) {
+              private location: Location, private userService: UserService) {
   }
 
   ngOnInit(): void {

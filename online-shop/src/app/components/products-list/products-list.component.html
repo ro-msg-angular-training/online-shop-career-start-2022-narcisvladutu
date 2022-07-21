@@ -1,7 +1,7 @@
 <h2>PRODUCTS</h2>
-<button [routerLink]="['/', 'order']">CART</button>
-<button (click)="addToCart()">ADD PRODUCT TO CART</button>
-<button [routerLink]="['/', 'add-product']">ADD PRODUCT TO CATALOGUE</button>
+<button [routerLink]="['/', 'order']" [disabled]="!hasAuthorisationOfCustomerOrAdmin">CART</button>
+<button (click)="addToCart()" [disabled]="!hasAuthorisationOfCustomerOrAdmin">ADD PRODUCT TO CART</button>
+<button [routerLink]="['/', 'add-product']" *ngIf="hasAuthorisationOfAdmin">ADD PRODUCT TO CATALOGUE</button>
 <div *ngIf="products">
   <router-outlet></router-outlet>
   <div class="row">
