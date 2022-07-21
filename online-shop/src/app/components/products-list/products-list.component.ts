@@ -16,6 +16,7 @@ export class ProductsListComponent implements OnInit {
   hasAuthorisationOfCustomerOrAdmin: boolean =
     this.userService.hasRoleType("customer") || this.userService.hasRoleType("admin");
   hasAuthorisationOfAdmin: boolean = this.userService.hasRoleType("admin");
+  hasAuthoristaionOfCustomer: boolean = this.userService.hasRoleType("customer");
 
   constructor(private productService: ProductService, private userService: UserService) {
   }

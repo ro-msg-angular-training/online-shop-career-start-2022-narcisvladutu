@@ -21,6 +21,7 @@ export class UserService {
     return this.http.post<User>(`${url}/login`, credentials).pipe(tap((user) => {
       {
         this.currentUser = user
+        localStorage.setItem("username", this.currentUser.username)
       }
     }))
   }
@@ -31,6 +32,5 @@ export class UserService {
 
   hasRoleType(role: Role) {
     return !!this.currentUser?.roles.includes(role);
-
   }
 }

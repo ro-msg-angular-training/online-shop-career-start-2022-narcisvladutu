@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
           this.router.navigateByUrl(`/products`);
           alert("YOU ARE LOGGED")
         }
-      })
+      },()=>{alert("YOUR CREDENTIALS ARE NOT CORRECT")})
     } else {
       alert(
         "YOUR CREDENTIALS ARE NOT CORRECT"
