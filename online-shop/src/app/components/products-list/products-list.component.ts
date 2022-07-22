@@ -16,13 +16,13 @@ export class ProductsListComponent implements OnInit {
   order: OrderModel = {products: []};
   hasAuthorisationOfAdmin: boolean = false;
   hasAuthorisationOfCustomer: boolean = false;
-  productSubscription: Subscription | undefined;
+  productsSubscription: Subscription | undefined;
 
   constructor(private productService: ProductService, private userService: UserService) {
   }
 
   ngOnInit(): void {
-    this.productSubscription = this.productService.getAllProducts().subscribe((data) => this.products = data)
+    this.productsSubscription = this.productService.getAllProducts().subscribe((data) => this.products = data)
     this.hasAuthorisationOfAdmin = this.userService.hasRoleType("admin")
     this.hasAuthorisationOfCustomer = this.userService.hasRoleType("customer");
     this.order = this.productService.getOrder();
@@ -40,6 +40,6 @@ export class ProductsListComponent implements OnInit {
   }
 
   onLeave(){
-    this.productSubscription?.unsubscribe();
+    this.productsSubscription?.unsubscribe();
   }
 }

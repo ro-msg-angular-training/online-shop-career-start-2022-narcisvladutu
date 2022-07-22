@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {ProductService} from "../../services/product.service";
 import {Location} from "@angular/common";
 import {UserService} from "../../services/user.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-product-view',
@@ -14,7 +15,8 @@ import {UserService} from "../../services/user.service";
 export class ProductViewComponent implements OnInit {
   product: ProductModel | undefined;
   id: string | null = "";
-  hasAuthorisationOfAdmin: boolean = false
+  hasAuthorisationOfAdmin: boolean = false;
+  productSubscription: Subscription | undefined;
 
   constructor(private route: ActivatedRoute, private http: HttpClient, private productService: ProductService,
               private router: Router, private userService: UserService) {
@@ -23,7 +25,7 @@ export class ProductViewComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
     if (this.id) {
-      this.productService.getProductByID(this.id).subscribe((data) => this.product = <ProductModel>data);
+      this.productSubscription = this.productService.getProductByID(this.id).subscribe((data) => this.product = <ProductModel>data);
     }
     this.hasAuthorisationOfAdmin = this.userService.hasRoleType("admin");
   }
@@ -38,6 +40,7 @@ export class ProductViewComponent implements OnInit {
   }
 
   goBack() {
+    this.productSubscription?.unsubscribe()
     this.router.navigateByUrl('/products');
   }
 }

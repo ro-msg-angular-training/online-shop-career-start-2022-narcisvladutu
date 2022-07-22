@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {ProductService} from "../../services/product.service";
 import {ProductModel} from "../../types/product.model";
+import {Subscription} from "rxjs";
 
 
 @Component({
@@ -22,6 +23,7 @@ export class EditProductComponent implements OnInit {
     price: [0, [Validators.required]],
     description: ["the description", [Validators.required]]
   });
+  productSubscription: Subscription | undefined;
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private http: HttpClient,
               private productService: ProductService, private router: Router) {
@@ -30,7 +32,7 @@ export class EditProductComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id')
     if (this.id) {
-      this.productService.getProductByID(this.id).subscribe((data) => {
+      this.productSubscription = this.productService.getProductByID(this.id).subscribe((data) => {
           this.product = <ProductModel>data;
           this.form = this.fb.group({
             name: [this.product?.name, [Validators.required, Validators.minLength(5)]],
@@ -45,6 +47,7 @@ export class EditProductComponent implements OnInit {
   }
 
   goBack() {
+    this.productSubscription?.unsubscribe();
     this.router.navigateByUrl('/products')
   }
 
