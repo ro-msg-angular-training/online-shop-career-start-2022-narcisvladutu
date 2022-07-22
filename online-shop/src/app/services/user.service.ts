@@ -3,7 +3,8 @@ import {HttpClient} from "@angular/common/http";
 import {CredentialsModel} from "../types/credentials.model";
 import {Observable, tap} from "rxjs";
 import {Role, User} from "../types/user.model";
-import {url} from "../utils";
+import {environment} from "../../environments/environment";
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class UserService {
   }
 
   login(credentials: CredentialsModel): Observable<User> {
-    return this.http.post<User>(`${url}/login`, credentials).pipe(tap((user) => {
+    return this.http.post<User>(`${environment.url}/login`, credentials).pipe(tap((user) => {
       {
         this.currentUser = user
         localStorage.setItem("username", this.currentUser.username)
@@ -26,7 +27,7 @@ export class UserService {
   }
 
   isLoggedIn() {
-    return this.currentUser != undefined
+    return this.currentUser !== undefined
   }
 
   hasRoleType(role: Role) {
