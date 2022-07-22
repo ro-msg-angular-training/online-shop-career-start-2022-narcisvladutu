@@ -1,0 +1,21 @@
+.row {
+  display: flex;
+}
+
+span {
+  border: 1px solid #dddddd;
+  flex: 1;
+}
+
+h2{
+  text-align: center;
+}
+
+.attribute-title{
+  color: darkblue;
+  text-align: center;
+}
+
+app-product:active{
+  color: red;
+}

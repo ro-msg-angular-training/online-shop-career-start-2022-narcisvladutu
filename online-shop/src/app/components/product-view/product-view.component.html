@@ -1,0 +1,11 @@
+<button *ngIf="product && hasAuthorisationOfAdmin"
+        [routerLink]="['/', 'edit-product', product.id]">EDIT
+</button>
+<button (click)="goBack()">CANCEL</button>
+<router-outlet></router-outlet>
+<button (click)="deleteProduct()" *ngIf="hasAuthorisationOfAdmin">DELETE</button>
+<p *ngIf="product">{{this.product.name}}</p>
+<p *ngIf="product">Avem urmatorul id {{this.product.id}}</p>
+<p *ngIf="product">{{this.product.description}}</p>
+<p *ngIf="product">{{this.product.price}}</p>
+<img *ngIf="product" src="{{this.product.image}}" alt="imagine pe care nu o gasim">

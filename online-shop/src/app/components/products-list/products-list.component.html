@@ -1,0 +1,14 @@
+<h2>PRODUCTS</h2>
+<button [routerLink]="['/', 'order']" *ngIf="hasAuthorisationOfCustomer" (click)="onLeave()">CART</button>
+<button (click)="addToCart()" *ngIf="hasAuthorisationOfCustomer">ADD PRODUCT TO CART</button>
+<button [routerLink]="['/', 'add-product']" [disabled]="!hasAuthorisationOfAdmin">ADD PRODUCT TO CATALOGUE</button>
+<div *ngIf="products">
+  <router-outlet></router-outlet>
+  <div class="row">
+    <span class="attribute-title">CATEGORY</span>
+    <span class="attribute-title">NAME</span>
+    <span class="attribute-title">PRICE</span>
+    <span></span>
+  </div>
+  <app-product *ngFor="let product of products" [product]="product" (click)="refreshID(product.id)"></app-product>
+</div>

@@ -1,0 +1,19 @@
+<div class="login">
+  <div class="login-content animate">
+    <div class="container">
+      <form *ngIf="form" [formGroup]="form">
+        <label><b>Username</b></label>
+        <mat-form-field>
+          <input matInput placeholder="Enter Username" formControlName="username" type="text">
+        </mat-form-field>
+
+        <label><b>Password</b></label>
+        <mat-form-field>
+          <input matInput placeholder="Enter Password" formControlName="password" type="password">
+        </mat-form-field>
+
+      </form>
+      <button (click)="login()">Login</button>
+    </div>
+  </div>
+</div>
