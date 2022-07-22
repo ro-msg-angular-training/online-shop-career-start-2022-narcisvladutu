@@ -3,7 +3,11 @@ import {ProductModelDisplay} from "../../types/product-display.model";
 import {ProductService} from '../../services/product.service';
 import {OrderModel} from "../../types/order.model";
 import {UserService} from "../../services/user.service";
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
+import {Store} from "@ngrx/store";
+import {loadProducts} from "../../store/actions/product.actions";
+import {selectAllProducts} from "../../store/selectors/todo.selectors";
+import {AppState} from "../../store/state/app.state";
 
 @Component({
   selector: 'app-products-list',
@@ -18,11 +22,16 @@ export class ProductsListComponent implements OnInit {
   hasAuthorisationOfCustomer: boolean = false;
   productsSubscription: Subscription | undefined;
 
-  constructor(private productService: ProductService, private userService: UserService) {
+  public allProducts$ = this.store.select(selectAllProducts);
+
+  constructor(private productService: ProductService, private userService: UserService,
+              private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
-    this.productsSubscription = this.productService.getAllProducts().subscribe((data) => this.products = data)
+    this.store.dispatch(loadProducts())
+    this.allProducts$?.subscribe((data)=>{this.products = data})
+    //this.productsSubscription = this.productService.getAllProducts().subscribe((data) => this.products = data)
     this.hasAuthorisationOfAdmin = this.userService.hasRoleType("admin")
     this.hasAuthorisationOfCustomer = this.userService.hasRoleType("customer");
     this.order = this.productService.getOrder();

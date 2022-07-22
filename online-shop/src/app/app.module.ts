@@ -19,6 +19,12 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatChipsModule} from "@angular/material/chips";
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { LoginComponent } from './components/login/login.component';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { StoreModule } from '@ngrx/store';
+import {productReducer} from "./store/reducers/product.reducers";
+import {EffectsModule} from "@ngrx/effects";
+import {ProductEffects} from "./store/effects/product.effects";
 
 @NgModule({
   declarations: [
@@ -41,7 +47,10 @@ import { LoginComponent } from './components/login/login.component';
     MatCheckboxModule,
     MatChipsModule,
     MatSelectModule,
-    MatButtonModule
+    MatButtonModule,
+    StoreDevtoolsModule.instrument({ maxAge: 25 }),
+    StoreModule.forRoot({products: productReducer}, {}),
+    EffectsModule.forRoot([ProductEffects])
   ],
   providers: [],
   bootstrap: [AppComponent]

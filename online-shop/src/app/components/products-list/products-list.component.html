@@ -10,5 +10,6 @@
     <span class="attribute-title">PRICE</span>
     <span></span>
   </div>
-  <app-product *ngFor="let product of products" [product]="product" (click)="refreshID(product.id)"></app-product>
+    <app-product *ngFor="let product of products" [product]="product"
+                 (click)="refreshID(product.id)"></app-product>
 </div>

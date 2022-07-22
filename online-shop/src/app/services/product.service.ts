@@ -75,4 +75,8 @@ export class ProductService {
   saveProduct(product: { name: any; category: any; price: any; image: any; description: any }) {
     return this.http.post(`${environment.url}/products`, product, {responseType: 'json'})
   }
+
+  saveProducts(products: ProductModel[]) {
+    return undefined;
+  }
 }
