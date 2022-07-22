@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {OrderModel} from "../../types/order.model";
 import {ProductService} from "../../services/product.service";
 import {ProductModel} from "../../types/product.model";
-import {Location} from "@angular/common";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-order',
@@ -11,14 +11,15 @@ import {Location} from "@angular/common";
 })
 export class OrderComponent implements OnInit {
 
-  order: OrderModel = this.productService.getOrder();
+  order: OrderModel = {products: []};
 
-  products: any[] = [];
+  products: ProductModel[] = [];
 
-  constructor(private productService: ProductService, private location: Location) {
+  constructor(private productService: ProductService, private router: Router) {
   }
 
   ngOnInit(): void {
+    this.order = this.productService.getOrder();
     this.order.products.forEach((x) => {
         for (let i = 1; i <= x.quantity; i++) {
           this.productService.getProductByID(x.productId).subscribe((data) => {
@@ -29,7 +30,6 @@ export class OrderComponent implements OnInit {
         }
       }
     )
-    console.log(this.products);
   }
 
   saveOrder() {
@@ -40,6 +40,6 @@ export class OrderComponent implements OnInit {
   }
 
   goBack() {
-    this.location.back();
+    this.router.navigateByUrl('/products');
   }
 }

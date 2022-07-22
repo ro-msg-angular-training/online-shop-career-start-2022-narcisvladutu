@@ -1,4 +1,4 @@
-<button *ngIf="product && hasAuthorisationOfAdmin" (click)="editProduct()"
+<button *ngIf="product && hasAuthorisationOfAdmin"
         [routerLink]="['/', 'edit-product', product.id]">EDIT
 </button>
 <router-outlet></router-outlet>

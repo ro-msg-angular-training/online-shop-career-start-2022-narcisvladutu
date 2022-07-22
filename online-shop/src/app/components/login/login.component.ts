@@ -3,7 +3,6 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CredentialsModel} from "../../types/credentials.model";
 import {UserService} from "../../services/user.service";
 import {Router} from "@angular/router";
-import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-login',
@@ -13,8 +12,7 @@ import {Location} from "@angular/common";
 export class LoginComponent implements OnInit {
   form: FormGroup | undefined;
 
-  constructor(private fb: FormBuilder, private userService: UserService,
-              private location: Location, private router: Router) {
+  constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
   }
 
   ngOnInit(): void {

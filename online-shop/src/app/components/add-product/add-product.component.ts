@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ProductService} from "../../services/product.service";
-import {Location} from "@angular/common";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-add-product',
@@ -11,7 +11,7 @@ import {Location} from "@angular/common";
 export class AddProductComponent implements OnInit {
   form: FormGroup | undefined;
 
-  constructor(private fb: FormBuilder, private productService: ProductService, private location: Location) {
+  constructor(private fb: FormBuilder, private productService: ProductService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -25,22 +25,20 @@ export class AddProductComponent implements OnInit {
   }
 
   goBack() {
-    this.location.back()
+    this.router.navigateByUrl('/products')
   }
 
   save() {
-    const product = {
-      name: this.form?.value.name,
-      category: this.form?.value.category,
-      price: this.form?.value.price,
-      image: this.form?.value.image,
-      description: this.form?.value.description,
-    };
+    if (this.form?.valid) {
+      const product = this.form.value;
 
-    this.productService.saveProduct(product).subscribe(() => {
-      alert("THE NEW PRODUCT WAS SAVED!")
-      this.goBack()
-    });
+      this.productService.saveProduct(product).subscribe(() => {
+        alert("THE NEW PRODUCT WAS SAVED!")
+        this.goBack()
+      });
+    }else{
+      alert("YOUR DATA AREN'T VALID !")
+    }
 
   }
 

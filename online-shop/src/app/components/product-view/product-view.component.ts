@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ProductModel} from "../../types/product.model";
 import {HttpClient} from "@angular/common/http";
 import {ProductService} from "../../services/product.service";
@@ -13,17 +13,19 @@ import {UserService} from "../../services/user.service";
 })
 export class ProductViewComponent implements OnInit {
   product: ProductModel | undefined;
-  id: string | null = this.route.snapshot.paramMap.get('id');
-  hasAuthorisationOfAdmin: boolean = this.userService.hasRoleType("admin");
+  id: string | null = "";
+  hasAuthorisationOfAdmin: boolean = false
 
   constructor(private route: ActivatedRoute, private http: HttpClient, private productService: ProductService,
-              private location: Location, private userService: UserService) {
+              private router: Router, private userService: UserService) {
   }
 
   ngOnInit(): void {
+    this.id = this.route.snapshot.paramMap.get('id');
     if (this.id) {
       this.productService.getProductByID(this.id).subscribe((data) => this.product = <ProductModel>data);
     }
+    this.hasAuthorisationOfAdmin = this.userService.hasRoleType("admin");
   }
 
   deleteProduct() {
@@ -36,10 +38,6 @@ export class ProductViewComponent implements OnInit {
   }
 
   goBack() {
-    this.location.back();
-  }
-
-  editProduct() {
-
+    this.router.navigateByUrl('/products');
   }
 }

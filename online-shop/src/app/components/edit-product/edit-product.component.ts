@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {ProductService} from "../../services/product.service";
-import {Location} from "@angular/common";
 import {ProductModel} from "../../types/product.model";
 
 
@@ -15,7 +14,7 @@ import {ProductModel} from "../../types/product.model";
 export class EditProductComponent implements OnInit {
 
   product: ProductModel | undefined;
-  id: string | null = this.route.snapshot.paramMap.get('id');
+  id: string | null = "";
   form: FormGroup = this.fb.group({
     name: ["the name", [Validators.required, Validators.minLength(5)]],
     category: ["the category", [Validators.required]],
@@ -25,10 +24,11 @@ export class EditProductComponent implements OnInit {
   });
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private http: HttpClient,
-              private productService: ProductService, private location: Location) {
+              private productService: ProductService, private router: Router) {
   }
 
   ngOnInit(): void {
+    this.id = this.route.snapshot.paramMap.get('id')
     if (this.id) {
       this.productService.getProductByID(this.id).subscribe((data) => {
           this.product = <ProductModel>data;
@@ -45,12 +45,12 @@ export class EditProductComponent implements OnInit {
   }
 
   goBack() {
-    this.location.back()
+    this.router.navigateByUrl('/products')
   }
 
   update() {
     if (this.product) {
-      if (!this.form.invalid) {
+      if (this.form.valid) {
         const newProduct: ProductModel = {
           id: this.product?.id,
           name: this.product.name === this.form?.value.name ? this.product.name : this.form?.value.name,
