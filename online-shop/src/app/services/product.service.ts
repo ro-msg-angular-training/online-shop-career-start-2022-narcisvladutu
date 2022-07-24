@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ProductModelDisplay} from "../types/product-display.model";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {catchError, throwError} from "rxjs";
+import {catchError, Observable, throwError} from "rxjs";
 import {OrderModel} from "../types/order.model";
 import {ProductModel} from "../types/product.model";
 import {environment} from "../../environments/environment";
@@ -16,20 +16,20 @@ export class ProductService {
   constructor(private http: HttpClient) {
   }
 
-  getAllProducts() {
+  getAllProducts(): Observable<ProductModelDisplay[]> {
     return this.http.get<ProductModelDisplay[]>(`${environment.url}/products`).pipe(
       catchError(this.handleError)
     );
   }
 
-  getProductByID(id: string) {
-    return this.http.get(`${environment.url}/products/${id}`).pipe(
+  getProductByID(id: string): Observable<ProductModel> {
+    return this.http.get<ProductModel>(`${environment.url}/products/${id}`).pipe(
       catchError(this.handleError)
     );
   }
 
-  deleteProduct(id: string) {
-    return this.http.delete(`${environment.url}/products/${id}`);
+  deleteProduct(id: string): Observable<void> {
+    return this.http.delete<void>(`${environment.url}/products/${id}`);
   }
 
   handleError(error: HttpErrorResponse) {
@@ -58,7 +58,7 @@ export class ProductService {
     return this.getOrder();
   }
 
-  getOrder() {
+  getOrder(): OrderModel {
     return this.order;
   }
 
@@ -72,11 +72,7 @@ export class ProductService {
     return this.http.put(`${environment.url}/products/${newProduct.id}`, newProduct)
   }
 
-  saveProduct(product: { name: any; category: any; price: any; image: any; description: any }) {
-    return this.http.post(`${environment.url}/products`, product, {responseType: 'json'})
-  }
-
-  saveProducts(products: ProductModel[]) {
-    return undefined;
+  saveProduct(product: { name: any; category: any; price: any; image: any; description: any }): Observable<ProductModel> {
+    return this.http.post<ProductModel>(`${environment.url}/products`, product, {responseType: 'json'})
   }
 }

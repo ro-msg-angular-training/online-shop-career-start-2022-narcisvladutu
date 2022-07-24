@@ -3,7 +3,7 @@ import {OrderModel} from "../../types/order.model";
 import {ProductService} from "../../services/product.service";
 import {ProductModel} from "../../types/product.model";
 import {Router} from "@angular/router";
-import {forkJoin, map} from "rxjs";
+import {forkJoin, map, take} from "rxjs";
 
 @Component({
   selector: 'app-order',
@@ -22,18 +22,6 @@ export class OrderComponent implements OnInit {
   ngOnInit(): void {
     this.order = this.productService.getOrder();
 
-    // I'll keep it for the moment
-    // this.order.products.forEach((x) => {
-    //     for (let i = 1; i <= x.quantity; i++) {
-    //       this.productService.getProductByID(x.productId).subscribe((data) => {
-    //           let product = <ProductModel>data;
-    //           this.products.push(product);
-    //         }
-    //       )
-    //     }
-    //   }
-    // )
-
     this.order.products.forEach((x) => {
         for (let i = 1; i <= x.quantity; i++) {
           const observable = forkJoin(this.productService.getProductByID(x.productId).pipe(map((data) => {
@@ -50,7 +38,7 @@ export class OrderComponent implements OnInit {
   }
 
   saveOrder() {
-    this.productService.saveOrder().subscribe(() => {
+    this.productService.saveOrder().pipe(take(1)).subscribe(() => {
       alert(`Your order has been placed!`);
       this.goBack()
     });

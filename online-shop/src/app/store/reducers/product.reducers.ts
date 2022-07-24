@@ -1,36 +1,87 @@
 import {createReducer, on} from "@ngrx/store";
-import {initialProductState} from "../state/product.state";
 import {
-  addProduct,
-  deleteProduct,
-  loadProducts,
-  loadProductsSuccess,
-  loadTodosFailure
+  addProduct, addProductFailure, addProductSuccess,
+  deleteProduct, deleteProductFailure, deleteProductSuccess,
+  getProduct,
+  getProductFailure,
+  getProductSuccess,
+  updateProduct, updateProductFailure,
+  updateProductSuccess
 } from "../actions/product.actions";
+import {initialProductState} from "../state/product.state";
 
 export const productReducer = createReducer(
   initialProductState,
-  on(addProduct, (state, { product }) => ({
+
+  on(getProduct, (state) => ({
     ...state,
-    products: [...state.products, product],
+    status: "loading"
   })),
-  on(deleteProduct, (state, { id }) => ({
+
+  on(getProductSuccess, (state, {product}) => ({
     ...state,
-    todos: state.products.filter((product) => product.id !== id),
-  })),
-  // Trigger loading the todos
-  on(loadProducts, (state) => ({ ...state, status: 'loading' })),
-  // Handle successfully loaded todos
-  on(loadProductsSuccess, (state, { products }) => ({
-    ...state,
-    products: products,
+    currentProduct: product,
+    status: "success",
     error: null,
-    status: 'success',
   })),
-  // Handle todos load failure
-  on(loadTodosFailure, (state, { error }) => ({
+
+  on(getProductFailure, (state) => ({
     ...state,
-    error: error,
-    status: 'error',
-  }))
-)
+    status: "error",
+    error: null,
+  })),
+
+  on(updateProduct, (state) => ({
+    ...state,
+    status: "loading"
+  })),
+
+  on(updateProductSuccess, (state) => ({
+    ...state,
+    currentProduct: null,
+    status: "success",
+    error: null,
+  })),
+
+  on(updateProductFailure, (state) => ({
+    ...state,
+    status: "error",
+    error: null,
+  })),
+
+  on(deleteProduct, (state) => ({
+    ...state,
+    status: "loading"
+  })),
+
+  on(deleteProductSuccess, (state) => ({
+    ...state,
+    currentProduct: null,
+    status: "success",
+    error: null,
+  })),
+
+  on(deleteProductFailure, (state) => ({
+    ...state,
+    status: "error",
+    error: null,
+  })),
+
+  on(addProduct, (state) => ({
+    ...state,
+    status: "loading"
+  })),
+
+  on(addProductFailure, (state) => ({
+    ...state,
+    status: "error",
+    error: null,
+  })),
+
+  on(addProductSuccess, (state) => ({
+    ...state,
+    currentProduct: null,
+    status: "success",
+    error: null,
+  })),
+);

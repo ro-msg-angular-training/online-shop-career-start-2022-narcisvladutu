@@ -1,66 +1,20 @@
-// import {Action} from "@ngrx/store";
-// import {ProductModel} from "../../types/product.model";
-//
-// export enum EProductActions {
-//   GetProducts = '[Product] Get Products',
-//   GetProductsSuccess = '[Product] Get Products Success',
-//   GetProduct = '[Product] Get Product',
-//   GetProductSuccess = '[Product] Get Product Success'
-// }
-//
-// export class GetProducts implements Action {
-//   public readonly type = EProductActions.GetProducts;
-// }
-//
-// export class GetProductsSuccess implements Action {
-//   public readonly type = EProductActions.GetProductsSuccess;
-//
-//   constructor(public payload: ProductModel[]) {
-//   }
-// }
-//
-// export class GetProductSuccess implements Action {
-//   public readonly type = EProductActions.GetProductSuccess;
-//
-//   constructor(public payload: ProductModel) {
-//   }
-// }
-//
-//
-// export class GetProduct implements Action {
-//   public readonly type = EProductActions.GetProduct;
-//
-//   constructor(public payload: number) {
-//   }
-// }
-//
-// export type ProductActions =  GetProduct | GetProducts | GetProductsSuccess | GetProductSuccess
-
 import {createAction, props} from "@ngrx/store";
 import {ProductModel} from "../../types/product.model";
 import {ProductModelDisplay} from "../../types/product-display.model";
 
-export const addProduct = createAction(
-  '[Product] Add Product',
-  props<{ product: ProductModel }>()
-)
 
-export const deleteProduct = createAction(
-  '[Product] Add Product',
-  props<{ id: string }>()
-)
+export const addProduct = createAction('[ADD Product] Add Product', props<{ product: ProductModel }>());
+export const addProductSuccess = createAction('[ADD Product] Add Product Success', props<{ product: ProductModel }>());
+export const addProductFailure = createAction('[ADD Product] Add Product Failure', props<{ error: any }>());
 
-export const loadProducts = createAction(
-  '[Product] Load Products'
-)
+export const getProduct = createAction('[GET Product] Get product', props<{ productId: string }>());
+export const getProductSuccess = createAction('[GET Product] Get Product Success', props<{ product: ProductModel }>());
+export const getProductFailure = createAction('[GET Product] Get Product Failure', props<{ error: any }>());
 
+export const updateProduct = createAction('[UPD Product] Update Product', props<{ product: ProductModel }>());
+export const updateProductSuccess = createAction('[UPD Product] Update Product Success');
+export const updateProductFailure = createAction('[UPD Product] Update Product Failure', props<{ error: any }>());
 
-export const loadProductsSuccess = createAction(
-  '[Product] Load Products Success',
-  props<{ products: ProductModelDisplay[] }>()
-);
-
-export const loadTodosFailure = createAction(
-  '[Product] Load Products Failure',
-  props<{ error: string }>()
-);
+export const deleteProduct = createAction('[DEL Product] Delete Product', props<{ productId: string }>());
+export const deleteProductSuccess = createAction('[DEL Product] Delete Product Success');
+export const deleteProductFailure = createAction('[DEL Product] Delete Product Failure', props<{ error: any }>());

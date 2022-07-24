@@ -4,7 +4,11 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {ProductService} from "../../services/product.service";
 import {ProductModel} from "../../types/product.model";
-import {Subscription} from "rxjs";
+import {Subscription, take} from "rxjs";
+import {AppState} from "../../store/state/app.state";
+import {Store} from "@ngrx/store";
+import {selectCurrentProduct} from "../../store/selectors/product.selectors";
+import {updateProduct} from "../../store/actions/product.actions";
 
 
 @Component({
@@ -14,7 +18,7 @@ import {Subscription} from "rxjs";
 })
 export class EditProductComponent implements OnInit {
 
-  product: ProductModel | undefined;
+  selectedProduct: ProductModel | null = null;
   id: string | null = "";
   form: FormGroup = this.fb.group({
     name: ["the name", [Validators.required, Validators.minLength(5)]],
@@ -25,24 +29,23 @@ export class EditProductComponent implements OnInit {
   });
   productSubscription: Subscription | undefined;
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private http: HttpClient,
-              private productService: ProductService, private router: Router) {
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private http: HttpClient, private router: Router,
+              private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id')
     if (this.id) {
-      this.productSubscription = this.productService.getProductByID(this.id).subscribe((data) => {
-          this.product = <ProductModel>data;
-          this.form = this.fb.group({
-            name: [this.product?.name, [Validators.required, Validators.minLength(5)]],
-            category: [this.product?.category, [Validators.required]],
-            image: [this.product?.image, [Validators.required]],
-            price: [this.product.price, [Validators.required, Validators.pattern('^\\d+$')]],
-            description: [this.product?.description, [Validators.required]]
-          })
-        }
-      );
+      this.productSubscription = this.store.select(selectCurrentProduct).subscribe((data) => {
+        this.selectedProduct = data;
+        this.form = this.fb.group({
+          name: [this.selectedProduct?.name, [Validators.required, Validators.minLength(5)]],
+          category: [this.selectedProduct?.category, [Validators.required]],
+          image: [this.selectedProduct?.image, [Validators.required]],
+          price: [this.selectedProduct?.price, [Validators.required, Validators.pattern('^\\d+$')]],
+          description: [this.selectedProduct?.description, [Validators.required]]
+        })
+      })
     }
   }
 
@@ -52,18 +55,17 @@ export class EditProductComponent implements OnInit {
   }
 
   update() {
-    if (this.product) {
+    if (this.selectedProduct) {
       if (this.form.valid) {
         const newProduct: ProductModel = {
-          id: this.product?.id,
-          name: this.product.name === this.form?.value.name ? this.product.name : this.form?.value.name,
-          price: this.product.price === this.form?.value.price ? this.product.price : this.form?.value.price,
-          image: this.product.image === this.form?.value.image ? this.product.image : this.form?.value.image,
-          category: this.product.category === this.form?.value.category ? this.product.category : this.form?.value.category,
-          description: this.product.description === this.form?.value.description ? this.product.description : this.form?.value.description
+          id: this.selectedProduct?.id,
+          name: this.selectedProduct.name === this.form?.value.name ? this.selectedProduct.name : this.form?.value.name,
+          price: this.selectedProduct.price === this.form?.value.price ? this.selectedProduct.price : this.form?.value.price,
+          image: this.selectedProduct.image === this.form?.value.image ? this.selectedProduct.image : this.form?.value.image,
+          category: this.selectedProduct.category === this.form?.value.category ? this.selectedProduct.category : this.form?.value.category,
+          description: this.selectedProduct.description === this.form?.value.description ? this.selectedProduct.description : this.form?.value.description
         }
-        this.productService.updateProduct(newProduct).subscribe(() => {
-        });
+        this.store.dispatch(updateProduct({product: newProduct}))
       } else {
         alert("INTRODUCE CORRECT DATA!")
       }

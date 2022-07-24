@@ -2,10 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ProductModel} from "../../types/product.model";
 import {HttpClient} from "@angular/common/http";
-import {ProductService} from "../../services/product.service";
-import {Location} from "@angular/common";
 import {UserService} from "../../services/user.service";
-import {Subscription} from "rxjs";
+import {Subscription, take} from "rxjs";
+import {Store} from "@ngrx/store";
+import {AppState} from "../../store/state/app.state";
+import {selectCurrentProduct} from "../../store/selectors/product.selectors";
+import {deleteProduct, getProduct} from "../../store/actions/product.actions";
 
 @Component({
   selector: 'app-product-view',
@@ -13,29 +15,35 @@ import {Subscription} from "rxjs";
   styleUrls: ['./product-view.component.scss']
 })
 export class ProductViewComponent implements OnInit {
-  product: ProductModel | undefined;
+  selectedProduct: ProductModel | null = null;
   id: string | null = "";
   hasAuthorisationOfAdmin: boolean = false;
   productSubscription: Subscription | undefined;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient, private productService: ProductService,
-              private router: Router, private userService: UserService) {
+  constructor(private route: ActivatedRoute, private http: HttpClient,
+              private router: Router, private userService: UserService, private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
+
     if (this.id) {
-      this.productSubscription = this.productService.getProductByID(this.id).subscribe((data) => this.product = <ProductModel>data);
+      this.store.dispatch(getProduct({productId: this.id}))
+
+      this.productSubscription = this.store.select(selectCurrentProduct).subscribe((data) => {
+          this.selectedProduct = data
+        }
+      )
+      ;
     }
     this.hasAuthorisationOfAdmin = this.userService.hasRoleType("admin");
   }
 
   deleteProduct() {
     if (this.id) {
-      this.productService.deleteProduct(this.id).subscribe(() => {
-        alert(`${this.product?.name} has been deleted!`);
-        this.goBack()
-      });
+      this.store.dispatch(deleteProduct({productId: this.id}))
+      alert(`${this.selectedProduct?.name} has been deleted!`);
+      this.goBack()
     }
   }
 

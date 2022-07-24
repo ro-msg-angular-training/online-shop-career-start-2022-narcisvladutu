@@ -1,5 +1,7 @@
-import { IProductState} from "./product.state";
+import { IProductsState} from "./products.state";
+import {ProductState} from "./product.state";
 
 export interface AppState {
-  products: IProductState;
+  products: IProductsState;
+  product: ProductState
 }

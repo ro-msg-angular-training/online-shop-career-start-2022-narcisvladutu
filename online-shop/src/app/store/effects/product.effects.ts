@@ -1,49 +1,79 @@
 import {Injectable} from '@angular/core';
-import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {
-  addProduct, deleteProduct, loadProductsSuccess, loadProducts, loadTodosFailure
-} from "../actions/product.actions";
 import {ProductService} from "../../services/product.service";
-import {of, from} from 'rxjs';
-import {switchMap, map, catchError, withLatestFrom} from 'rxjs/operators';
-import {Store} from '@ngrx/store';
-import {selectAllProducts} from "../selectors/todo.selectors";
-import {AppState} from "../state/app.state";
+import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {catchError, map, switchMap} from 'rxjs/operators';
+import {ProductModel} from "../../types/product.model";
+import {from, of} from 'rxjs';
+import {
+  addProduct,
+  addProductFailure,
+  addProductSuccess,
+  deleteProduct,
+  deleteProductFailure,
+  deleteProductSuccess,
+  getProduct,
+  getProductFailure,
+  getProductSuccess,
+  updateProduct,
+  updateProductFailure,
+  updateProductSuccess,
+} from '../actions/product.actions';
 
 @Injectable()
 export class ProductEffects {
   constructor(
-    private actions$: Actions,
-    private store: Store<AppState>,
-    private productService: ProductService
+    private productsService: ProductService,
+    private actions$: Actions
   ) {
   }
 
-  // Run this code when a loadTodos action is dispatched
-  loadProducts$ = createEffect(() =>
+  addProduct$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(loadProducts),
-      switchMap(() =>
-        // Call the getTodos method, convert it to an observable
-        from(this.productService.getAllProducts()).pipe(
-          // Take the returned value and return a new success action containing the todos
-          map((products) => loadProductsSuccess({products: products})),
-          // Or... if it errors return a new failure action containing the error
-          catchError((error) => of(loadTodosFailure({error})))
+      ofType(addProduct),
+      switchMap((props) =>
+        from(this.productsService.saveProduct(props.product)).pipe(
+          map((product) => {
+            return addProductSuccess({product: product});
+          }),
+          catchError((err) => of(addProductFailure({error: err})))
         )
       )
     )
   );
 
-  // Run this code when the addTodo or removeTodo action is dispatched
-  // saveProducts$ = createEffect(
-  //   () =>
-  //     this.actions$.pipe(
-  //       ofType(addProduct, deleteProduct),
-  //       withLatestFrom(this.store.select(selectAllProducts)),
-  //       switchMap(([action, products]) => from(this.productService.saveProduct(product)))
-  //     ),
-  //   // Most effects dispatch another action, but this one is just a "fire and forget" effect
-  //   {dispatch: false}
-  // );
+  getProduct$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getProduct),
+      switchMap((props) =>
+        this.productsService.getProductByID(props.productId).pipe(
+          map((product: ProductModel) => getProductSuccess({product: product})),
+          catchError((err) => of(getProductFailure({error: err})))
+        )
+      )
+    )
+  );
+
+  updateProduct$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(updateProduct),
+      switchMap((props) =>
+        this.productsService.updateProduct(props.product).pipe(
+          map(() => updateProductSuccess()),
+          catchError((err) => of(updateProductFailure({error: err})))
+        )
+      )
+    )
+  );
+
+  deleteProduct$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(deleteProduct),
+      switchMap((props) =>
+        this.productsService.deleteProduct(props.productId).pipe(
+          map(() => deleteProductSuccess()),
+          catchError((err) => of(deleteProductFailure({error: err})))
+        )
+      )
+    )
+  );
 }

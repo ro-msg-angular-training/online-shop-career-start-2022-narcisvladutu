@@ -3,10 +3,10 @@ import {ProductModelDisplay} from "../../types/product-display.model";
 import {ProductService} from '../../services/product.service';
 import {OrderModel} from "../../types/order.model";
 import {UserService} from "../../services/user.service";
-import {Observable, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
-import {loadProducts} from "../../store/actions/product.actions";
-import {selectAllProducts} from "../../store/selectors/todo.selectors";
+import {loadProducts} from "../../store/actions/products.actions";
+import {selectAllProducts} from "../../store/selectors/products..selectors";
 import {AppState} from "../../store/state/app.state";
 
 @Component({
@@ -30,8 +30,7 @@ export class ProductsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(loadProducts())
-    this.allProducts$?.subscribe((data)=>{this.products = data})
-    //this.productsSubscription = this.productService.getAllProducts().subscribe((data) => this.products = data)
+    this.productsSubscription = this.allProducts$?.subscribe((data)=>{this.products = data})
     this.hasAuthorisationOfAdmin = this.userService.hasRoleType("admin")
     this.hasAuthorisationOfCustomer = this.userService.hasRoleType("customer");
     this.order = this.productService.getOrder();
