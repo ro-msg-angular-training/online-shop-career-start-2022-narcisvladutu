@@ -2,12 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ProductModel} from "../../types/product.model";
 import {HttpClient} from "@angular/common/http";
-import {UserService} from "../../services/user.service";
-import {Subscription, take} from "rxjs";
+import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../store/state/app.state";
 import {selectCurrentProduct} from "../../store/selectors/product.selectors";
 import {deleteProduct, getProduct} from "../../store/actions/product.actions";
+import {selectAdminRole} from "../../store/selectors/auth.selectors";
 
 @Component({
   selector: 'app-product-view',
@@ -20,8 +20,7 @@ export class ProductViewComponent implements OnInit {
   hasAuthorisationOfAdmin: boolean = false;
   productSubscription: Subscription | undefined;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient,
-              private router: Router, private userService: UserService, private store: Store<AppState>) {
+  constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router, private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
@@ -36,7 +35,7 @@ export class ProductViewComponent implements OnInit {
       )
       ;
     }
-    this.hasAuthorisationOfAdmin = this.userService.hasRoleType("admin");
+    this.store.select(selectAdminRole).subscribe((data)=> this.hasAuthorisationOfAdmin = data);
   }
 
   deleteProduct() {

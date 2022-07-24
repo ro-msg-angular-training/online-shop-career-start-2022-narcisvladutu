@@ -2,12 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {ProductModelDisplay} from "../../types/product-display.model";
 import {ProductService} from '../../services/product.service';
 import {OrderModel} from "../../types/order.model";
-import {UserService} from "../../services/user.service";
 import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {loadProducts} from "../../store/actions/products.actions";
 import {selectAllProducts} from "../../store/selectors/products..selectors";
 import {AppState} from "../../store/state/app.state";
+import {selectAdminRole, selectCustomerRole} from "../../store/selectors/auth.selectors";
 
 @Component({
   selector: 'app-products-list',
@@ -24,15 +24,19 @@ export class ProductsListComponent implements OnInit {
 
   public allProducts$ = this.store.select(selectAllProducts);
 
-  constructor(private productService: ProductService, private userService: UserService,
+  constructor(private productService: ProductService,
               private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
     this.store.dispatch(loadProducts())
-    this.productsSubscription = this.allProducts$?.subscribe((data)=>{this.products = data})
-    this.hasAuthorisationOfAdmin = this.userService.hasRoleType("admin")
-    this.hasAuthorisationOfCustomer = this.userService.hasRoleType("customer");
+    this.productsSubscription = this.allProducts$?.subscribe((data) => {
+      this.products = data
+    })
+    this.store.select(selectAdminRole).subscribe((data) =>
+      this.hasAuthorisationOfAdmin = data)
+    this.store.select(selectCustomerRole).subscribe((data) =>
+      this.hasAuthorisationOfCustomer = data)
     this.order = this.productService.getOrder();
   }
 
@@ -47,7 +51,7 @@ export class ProductsListComponent implements OnInit {
     }
   }
 
-  onLeave(){
+  onLeave() {
     this.productsSubscription?.unsubscribe();
   }
 }
