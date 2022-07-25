@@ -2,9 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
-import {ProductService} from "../../services/product.service";
 import {ProductModel} from "../../types/product.model";
-import {Subscription, take} from "rxjs";
+import {Subscription} from "rxjs";
 import {AppState} from "../../store/state/app.state";
 import {Store} from "@ngrx/store";
 import {selectCurrentProduct} from "../../store/selectors/product.selectors";
@@ -29,7 +28,7 @@ export class EditProductComponent implements OnInit {
   });
   productSubscription: Subscription | undefined;
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private http: HttpClient, private router: Router,
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private router: Router,
               private store: Store<AppState>) {
   }
 

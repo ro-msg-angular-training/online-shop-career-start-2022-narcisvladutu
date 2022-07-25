@@ -1,13 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ProductModelDisplay} from "../../types/product-display.model";
-import {ProductService} from '../../services/product.service';
-import {OrderModel} from "../../types/order.model";
 import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {loadProducts} from "../../store/actions/products.actions";
 import {selectAllProducts} from "../../store/selectors/products..selectors";
 import {AppState} from "../../store/state/app.state";
 import {selectAdminRole, selectCustomerRole} from "../../store/selectors/auth.selectors";
+import {actualizeOrder} from "../../store/actions/order.actions";
 
 @Component({
   selector: 'app-products-list',
@@ -17,15 +16,13 @@ import {selectAdminRole, selectCustomerRole} from "../../store/selectors/auth.se
 export class ProductsListComponent implements OnInit {
   products: ProductModelDisplay[] | undefined;
   selectedProductID: string | undefined;
-  order: OrderModel = {products: []};
   hasAuthorisationOfAdmin: boolean = false;
   hasAuthorisationOfCustomer: boolean = false;
   productsSubscription: Subscription | undefined;
 
   public allProducts$ = this.store.select(selectAllProducts);
 
-  constructor(private productService: ProductService,
-              private store: Store<AppState>) {
+  constructor(private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
@@ -37,7 +34,6 @@ export class ProductsListComponent implements OnInit {
       this.hasAuthorisationOfAdmin = data)
     this.store.select(selectCustomerRole).subscribe((data) =>
       this.hasAuthorisationOfCustomer = data)
-    this.order = this.productService.getOrder();
   }
 
   refreshID(id: string) {
@@ -45,9 +41,8 @@ export class ProductsListComponent implements OnInit {
   }
 
   addToCart() {
-    if (this.selectedProductID) {
-      this.order = this.productService.actualizeOrder(this.selectedProductID, this.order);
-      alert('Your order has been actualized!')
+    if (this.selectedProductID !== undefined) {
+      this.store.dispatch(actualizeOrder({productID: this.selectedProductID}))
     }
   }
 

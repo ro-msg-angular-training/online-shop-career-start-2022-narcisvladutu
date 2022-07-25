@@ -30,6 +30,8 @@ import {ProductEffects} from "./store/effects/product.effects";
 import {productReducer} from "./store/reducers/product.reducers";
 import {authReducer} from "./store/reducers/auth.reducers";
 import {AuthEffects} from "./store/effects/auth.effects";
+import {OrderEffects} from "./store/effects/order.effects";
+import {orderReducer} from "./store/reducers/order.reducers";
 
 @NgModule({
   declarations: [
@@ -54,8 +56,13 @@ import {AuthEffects} from "./store/effects/auth.effects";
     MatSelectModule,
     MatButtonModule,
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
-    StoreModule.forRoot({products: productsReducer, product: productReducer, auth: authReducer}, {}),
-    EffectsModule.forRoot([ProductsEffects, ProductEffects, AuthEffects]),
+    StoreModule.forRoot({
+      products: productsReducer,
+      product: productReducer,
+      auth: authReducer,
+      order: orderReducer
+    }, {}),
+    EffectsModule.forRoot([ProductsEffects, ProductEffects, AuthEffects, OrderEffects]),
     StoreRouterConnectingModule.forRoot()
   ],
   providers: [],

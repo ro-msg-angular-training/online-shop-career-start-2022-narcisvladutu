@@ -1,9 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {OrderModel} from "../../types/order.model";
-import {ProductService} from "../../services/product.service";
 import {ProductModel} from "../../types/product.model";
 import {Router} from "@angular/router";
-import {forkJoin, map, take} from "rxjs";
+import {take} from "rxjs";
+import {AppState} from "../../store/state/app.state";
+import {Store} from "@ngrx/store";
+import {selectOrderProducts} from "../../store/selectors/order.selectors";
+import {ProductQuantityModel} from "../../types/ProductQuantity.model";
+import {saveOrder} from "../../store/actions/order.actions";
+import {getProduct} from "../../store/actions/product.actions";
+import {selectCurrentProduct} from "../../store/selectors/product.selectors";
 
 @Component({
   selector: 'app-order',
@@ -11,25 +16,22 @@ import {forkJoin, map, take} from "rxjs";
   styleUrls: ['./order.component.scss']
 })
 export class OrderComponent implements OnInit {
-
-  order: OrderModel = {products: []};
-
   products: ProductModel[] = [];
 
-  constructor(private productService: ProductService, private router: Router) {
+  productsQuantity: ProductQuantityModel[] = []
+
+  constructor(private router: Router, private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
-    this.order = this.productService.getOrder();
+    this.store.select(selectOrderProducts).pipe(take(1))
+      .subscribe((data) => this.productsQuantity = data)
 
-    this.order.products.forEach((x) => {
+    this.productsQuantity.forEach((x) => {
         for (let i = 1; i <= x.quantity; i++) {
-          const observable = forkJoin(this.productService.getProductByID(x.productId).pipe(map((data) => {
-              return <ProductModel>data;
-            }
-          )))
-          observable.subscribe((data) => {
-            this.products.push(...data)
+          this.store.dispatch(getProduct({productId: x.productId}))
+          this.store.select(selectCurrentProduct).subscribe((data) => {
+            if (data !== null) this.products.push(data)
           })
         }
       }
@@ -38,10 +40,9 @@ export class OrderComponent implements OnInit {
   }
 
   saveOrder() {
-    this.productService.saveOrder().pipe(take(1)).subscribe(() => {
-      alert(`Your order has been placed!`);
-      this.goBack()
-    });
+    this.store.dispatch(saveOrder({products: this.productsQuantity}));
+    alert("YOUR ORDER HAS BEEN PLACED!")
+    this.goBack();
   }
 
   goBack() {

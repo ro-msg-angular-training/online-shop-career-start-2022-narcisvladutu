@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {CredentialsModel} from "../types/credentials.model";
 import {Observable, tap} from "rxjs";
-import {Role, User} from "../types/user.model";
+import {User} from "../types/user.model";
 import {environment} from "../../environments/environment";
 
 
@@ -26,11 +26,7 @@ export class UserService {
     }))
   }
 
-  isLoggedIn() {
+  isLoggedIn(): boolean {
     return this.currentUser !== undefined
-  }
-
-  hasRoleType(role: Role) {
-    return !!this.currentUser?.roles.includes(role);
   }
 }

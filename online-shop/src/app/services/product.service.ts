@@ -5,13 +5,12 @@ import {catchError, Observable, throwError} from "rxjs";
 import {OrderModel} from "../types/order.model";
 import {ProductModel} from "../types/product.model";
 import {environment} from "../../environments/environment";
+import {ProductQuantityModel} from "../types/ProductQuantity.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-
-  order: OrderModel = {products: []}
 
   constructor(private http: HttpClient) {
   }
@@ -46,25 +45,8 @@ export class ProductService {
     return throwError(() => new Error('Something bad happened; please try again later.'));
   }
 
-  actualizeOrder(selectedProductID: string, order: OrderModel) {
-    if (selectedProductID !== undefined) {
-      const productOrder = order.products.find(x => x.productId === selectedProductID);
-      if (productOrder === undefined) {
-        order.products.push({productId: selectedProductID, quantity: 1})
-      } else {
-        productOrder.quantity += 1;
-      }
-    }
-    return this.getOrder();
-  }
-
-  getOrder(): OrderModel {
-    return this.order;
-  }
-
-  saveOrder() {
-    const data = {customer: localStorage.getItem("username"), products: this.order.products};
-    this.order.products = [];
+  saveOrder(products: ProductQuantityModel[]){
+    const data = {customer: localStorage.getItem("username"), products: products};
     return this.http.post(`${environment.url}/orders`, data, {responseType: 'text'});
   }
 
