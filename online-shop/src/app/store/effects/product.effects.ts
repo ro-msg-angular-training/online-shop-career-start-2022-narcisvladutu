@@ -49,7 +49,7 @@ export class ProductEffects {
         ofType(addProductSuccess),
         tap(({product: product}) => {
           alert(`${product.name} was added!`);
-          this.router.navigateByUrl('/products');
+          this.router.navigateByUrl('/products').then();
         })
       ),
     { dispatch: false }
@@ -96,7 +96,7 @@ export class ProductEffects {
         ofType(updateProductSuccess),
         tap(() => {
           alert('Successfully updated!');
-          this.router.navigateByUrl('/products');
+          this.router.navigateByUrl('/products').then();
         })
       ),
     { dispatch: false }
@@ -131,7 +131,7 @@ export class ProductEffects {
         ofType(deleteProductSuccess),
         tap(() => {
           alert('Successfully deleted!');
-          this.router.navigateByUrl('/products');
+          this.router.navigateByUrl('/products').then();
         })
       ),
     { dispatch: false }

@@ -1,4 +1,3 @@
-import {ProductModelDisplay} from "../../types/product-display.model";
 import {ProductModel} from "../../types/product.model";
 
 export interface ProductState {
