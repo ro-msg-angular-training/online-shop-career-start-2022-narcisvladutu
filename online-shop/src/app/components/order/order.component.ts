@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
 import {take} from "rxjs";
 import {AppState} from "../../store/state/app.state";
 import {Store} from "@ngrx/store";

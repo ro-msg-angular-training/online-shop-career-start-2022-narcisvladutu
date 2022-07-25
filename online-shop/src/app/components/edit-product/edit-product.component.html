@@ -1,25 +1,34 @@
+<body>
 <form *ngIf="form" [formGroup]="form">
-  <label>NAME</label>
+  <mat-label>NAME</mat-label>
   <mat-form-field>
     <input matInput placeholder="name" formControlName="name">
   </mat-form-field>
-  <label>CATEGORY</label>
+  <mat-label>CATEGORY</mat-label>
   <mat-form-field>
     <input matInput placeholder="category" formControlName="category">
   </mat-form-field>
-  <label>PRICE</label>
+  <mat-label>PRICE</mat-label>
   <mat-form-field>
     <input matInput placeholder="price" formControlName="price">
   </mat-form-field>
-  <label>IMAGE</label>
+  <mat-label>IMAGE</mat-label>
   <mat-form-field>
     <input matInput placeholder="image" formControlName="image">
   </mat-form-field>
-  <label>DESCRIPTION</label>
+  <mat-label>DESCRIPTION</mat-label>
   <mat-form-field>
     <textarea matInput placeholder="description" formControlName="description"></textarea>
   </mat-form-field>
 </form>
 
-<button (click)="goBack()">CANCEL</button>
-<button (click)="update()">SAVE</button>
+<button (click)="goBack()">
+  <mat-icon role="img"
+            aria-hidden="true"
+            data-mat-icon-type="font">home
+  </mat-icon>
+</button>
+<button (click)="update()">
+  <mat-icon>done_outline</mat-icon>
+</button>
+</body>

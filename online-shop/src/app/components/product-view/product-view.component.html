@@ -1,9 +1,15 @@
-<button *ngIf="selectedProduct && hasAuthorisationOfAdmin"
-        [routerLink]="['/', 'edit-product', selectedProduct.id]">EDIT
+<button (click)="goBack()">
+  <mat-icon role="img"
+            aria-hidden="true"
+            data-mat-icon-type="font">home
+  </mat-icon>
 </button>
-<button (click)="goBack()">CANCEL</button>
+<button *ngIf="selectedProduct && hasAuthorisationOfAdmin"
+        [routerLink]="['/', 'edit-product', selectedProduct.id]">
+  <mat-icon>edit</mat-icon>
+</button>
 <router-outlet></router-outlet>
-<button (click)="deleteProduct()" *ngIf="hasAuthorisationOfAdmin">DELETE</button>
+<button (click)="deleteProduct()" *ngIf="hasAuthorisationOfAdmin"><mat-icon>delete_forever</mat-icon></button>
 <p *ngIf="selectedProduct">{{this.selectedProduct.name}}</p>
 <p *ngIf="selectedProduct">Avem urmatorul id {{this.selectedProduct.id}}</p>
 <p *ngIf="selectedProduct">{{this.selectedProduct.description}}</p>

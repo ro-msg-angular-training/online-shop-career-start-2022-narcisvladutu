@@ -1,10 +1,29 @@
 <h2>Shopping Cart</h2>
 <button (click)="saveOrder()">CHECKOUT</button>
-<div *ngFor="let product of products">
-  <div class="row">
-    <span>{{product.category}}</span>
-    <span>{{product.name}}</span>
-    <span>{{product.price}} LEI</span>
-    <span><div class="x"></div></span>
-  </div>
-</div>
+
+
+<mat-table [dataSource]="products">
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef> Product name</mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="category">
+    <mat-header-cell *matHeaderCellDef> Category</mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.category}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="price">
+    <mat-header-cell *matHeaderCellDef> Price</mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.price}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="cancel">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let row"><span id="cancel"><button mat-button><mat-icon> cancel_presentation</mat-icon></button></span>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="['name', 'category', 'price', 'cancel']"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: ['name', 'category', 'price', 'cancel']"></mat-row>
+</mat-table>

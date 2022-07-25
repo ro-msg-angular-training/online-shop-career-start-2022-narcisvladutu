@@ -14,7 +14,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
-import {MatButtonModule} from "@angular/material/button";
+import {MatButton, MatButtonModule} from "@angular/material/button";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatChipsModule} from "@angular/material/chips";
 import {AddProductComponent} from './components/add-product/add-product.component';
@@ -32,6 +32,8 @@ import {authReducer} from "./store/reducers/auth.reducers";
 import {AuthEffects} from "./store/effects/auth.effects";
 import {OrderEffects} from "./store/effects/order.effects";
 import {orderReducer} from "./store/reducers/order.reducers";
+import {MatIconModule} from "@angular/material/icon";
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
   declarations: [
@@ -53,6 +55,7 @@ import {orderReducer} from "./store/reducers/order.reducers";
     MatInputModule,
     MatCheckboxModule,
     MatChipsModule,
+    MatIconModule,
     MatSelectModule,
     MatButtonModule,
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
@@ -63,7 +66,8 @@ import {orderReducer} from "./store/reducers/order.reducers";
       order: orderReducer
     }, {}),
     EffectsModule.forRoot([ProductsEffects, ProductEffects, AuthEffects, OrderEffects]),
-    StoreRouterConnectingModule.forRoot()
+    StoreRouterConnectingModule.forRoot(),
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]

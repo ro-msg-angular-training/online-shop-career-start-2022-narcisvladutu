@@ -1,9 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ProductService} from "../../services/product.service";
 import {Router} from "@angular/router";
-import {take} from "rxjs";
-import {State, Store} from "@ngrx/store";
+import {Store} from "@ngrx/store";
 import {AppState} from "../../store/state/app.state";
 import {addProduct} from "../../store/actions/product.actions";
 
@@ -29,7 +27,7 @@ export class AddProductComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigateByUrl('/products')
+    this.router.navigateByUrl('/products').then()
   }
 
   save() {

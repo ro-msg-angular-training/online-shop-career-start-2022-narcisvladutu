@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ProductModel} from "../../types/product.model";
 import {Observable, Subscription, take} from "rxjs";
 import {Store} from "@ngrx/store";
@@ -21,7 +21,7 @@ export class ProductViewComponent implements OnInit {
 
   product: Observable<ProductModel> | undefined;
 
-  constructor(private route: ActivatedRoute, private store: Store<AppState>) {
+  constructor(private route: ActivatedRoute, private store: Store<AppState>, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -48,5 +48,6 @@ export class ProductViewComponent implements OnInit {
 
   goBack() {
     this.productSubscription?.unsubscribe()
+    this.router.navigateByUrl('/products').then()
   }
 }

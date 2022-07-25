@@ -1,7 +1,16 @@
 <h2>PRODUCTS</h2>
-<button [routerLink]="['/', 'order']" *ngIf="hasAuthorisationOfCustomer" (click)="onLeave()">CART</button>
-<button (click)="addToCart()" *ngIf="hasAuthorisationOfCustomer">ADD PRODUCT TO CART</button>
-<button [routerLink]="['/', 'add-product']" [disabled]="!hasAuthorisationOfAdmin">ADD PRODUCT TO CATALOGUE</button>
+<button [routerLink]="['/', 'order']" *ngIf="hasAuthorisationOfCustomer" (click)="onLeave()">
+  <mat-icon>shopping_cart</mat-icon>
+  CART
+</button>
+<button (click)="addToCart()" *ngIf="hasAuthorisationOfCustomer">
+  <mat-icon>add_shopping_cart</mat-icon>
+  ADD PRODUCT TO CART
+</button>
+<button [routerLink]="['/', 'add-product']" [disabled]="!hasAuthorisationOfAdmin">
+  <mat-icon>library_add</mat-icon>
+  ADD PRODUCT TO CATALOGUE
+</button>
 <div *ngIf="products">
   <router-outlet></router-outlet>
   <div class="row">
@@ -10,6 +19,6 @@
     <span class="attribute-title">PRICE</span>
     <span></span>
   </div>
-    <app-product *ngFor="let product of (allProducts$ | async)" [product]="product"
-                 (click)="refreshID(product.id)"></app-product>
+  <app-product *ngFor="let product of (allProducts$ | async)" [product]="product"
+               (click)="refreshID(product.id)"></app-product>
 </div>

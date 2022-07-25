@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
-import {HttpClient} from "@angular/common/http";
 import {ProductModel} from "../../types/product.model";
 import {Subscription} from "rxjs";
 import {AppState} from "../../store/state/app.state";
@@ -50,7 +49,7 @@ export class EditProductComponent implements OnInit {
 
   goBack() {
     this.productSubscription?.unsubscribe();
-    this.router.navigateByUrl('/products')
+    this.router.navigateByUrl('/products').then()
   }
 
   update() {
