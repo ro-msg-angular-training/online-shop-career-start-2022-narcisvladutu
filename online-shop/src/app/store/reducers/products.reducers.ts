@@ -8,16 +8,16 @@ import {
 
 export const productsReducer = createReducer(
   initialProductsState,
-  on(loadProducts, (state) => ({ ...state, status: 'loading' })),
+  on(loadProducts, (state) => ({...state, status: 'loading'})),
   // Handle successfully loaded todos
-  on(loadProductsSuccess, (state, { products }) => ({
+  on(loadProductsSuccess, (state, {products}) => ({
     ...state,
     products: products,
     error: null,
     status: 'success',
   })),
   // Handle todos load failure
-  on(loadTodosFailure, (state, { error }) => ({
+  on(loadTodosFailure, (state, {error}) => ({
     ...state,
     error: error,
     status: 'error',

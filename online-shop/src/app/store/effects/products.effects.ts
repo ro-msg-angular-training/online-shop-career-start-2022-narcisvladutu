@@ -17,6 +17,7 @@ export class ProductsEffects {
     private productService: ProductService
   ) {
   }
+
   // Run this code when a loadTodos action is dispatched
   loadProducts$ = createEffect(() =>
     this.actions$.pipe(

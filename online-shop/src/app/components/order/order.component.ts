@@ -9,6 +9,8 @@ import {ProductQuantityModel} from "../../types/ProductQuantity.model";
 import {saveOrder} from "../../store/actions/order.actions";
 import {getProduct} from "../../store/actions/product.actions";
 import {selectCurrentProduct} from "../../store/selectors/product.selectors";
+import {selectProductById} from "../../store/selectors/products..selectors";
+import {ProductModelDisplay} from "../../types/product-display.model";
 
 @Component({
   selector: 'app-order',
@@ -16,7 +18,7 @@ import {selectCurrentProduct} from "../../store/selectors/product.selectors";
   styleUrls: ['./order.component.scss']
 })
 export class OrderComponent implements OnInit {
-  products: ProductModel[] = [];
+  products: ProductModelDisplay[] = [];
 
   productsQuantity: ProductQuantityModel[] = []
 
@@ -29,14 +31,12 @@ export class OrderComponent implements OnInit {
 
     this.productsQuantity.forEach((x) => {
         for (let i = 1; i <= x.quantity; i++) {
-          this.store.dispatch(getProduct({productId: x.productId}))
-          this.store.select(selectCurrentProduct).subscribe((data) => {
-            if (data !== null) this.products.push(data)
+          this.store.select(selectProductById(x.productId)).subscribe((data) => {
+            if (data !== undefined) this.products.push(data)
           })
         }
       }
     )
-
   }
 
   saveOrder() {
