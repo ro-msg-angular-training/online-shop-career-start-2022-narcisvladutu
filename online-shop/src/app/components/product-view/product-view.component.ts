@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {ProductModel} from "../../types/product.model";
-import {HttpClient} from "@angular/common/http";
-import {Observable, Subscription} from "rxjs";
+import {Observable, Subscription, take} from "rxjs";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../store/state/app.state";
 import {selectCurrentProduct} from "../../store/selectors/product.selectors";
@@ -22,7 +21,7 @@ export class ProductViewComponent implements OnInit {
 
   product: Observable<ProductModel> | undefined;
 
-  constructor(private route: ActivatedRoute, private router: Router, private store: Store<AppState>) {
+  constructor(private route: ActivatedRoute, private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
@@ -36,19 +35,18 @@ export class ProductViewComponent implements OnInit {
       )
       ;
     }
-    this.store.select(selectAdminRole).subscribe((data)=> this.hasAuthorisationOfAdmin = data);
+    this.store.select(selectAdminRole).pipe(take(1)).subscribe((data) => this.hasAuthorisationOfAdmin = data);
   }
 
   deleteProduct() {
     if (this.id) {
       this.store.dispatch(deleteProduct({productId: this.id}))
       alert(`${this.selectedProduct?.name} has been deleted!`);
-      this.goBack()
+      this.goBack();
     }
   }
 
   goBack() {
     this.productSubscription?.unsubscribe()
-    this.router.navigateByUrl('/products');
   }
 }

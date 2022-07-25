@@ -69,6 +69,5 @@ export class EditProductComponent implements OnInit {
         alert("INTRODUCE CORRECT DATA!")
       }
     }
-    this.goBack();
   }
 }

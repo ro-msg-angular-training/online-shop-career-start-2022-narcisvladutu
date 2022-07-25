@@ -2,13 +2,16 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {Observable} from 'rxjs';
 import {UserService} from "../services/user.service";
+import {AppState} from "../store/state/app.state";
+import {Store} from "@ngrx/store";
+import {selectAuthCurrentUser} from "../store/selectors/auth.selectors";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
 
-  constructor(private userService: UserService, private router: Router) {
+  constructor(private router: Router, private store: Store<AppState>) {
   }
 
   canActivate(
@@ -20,10 +23,13 @@ export class AuthGuard implements CanActivate {
   }
 
   checkLogin(url: string): boolean | Promise<boolean> {
-    if (this.userService.isLoggedIn()) {
+    let check: boolean = false;
+    this.store.select(selectAuthCurrentUser).subscribe((data) => {
+      if (data !== null) check = true
+    })
+    if (check) {
       return true;
     }
-    this.userService.redirectUrl = url;
     return this.router.navigateByUrl('/login');
   }
 }

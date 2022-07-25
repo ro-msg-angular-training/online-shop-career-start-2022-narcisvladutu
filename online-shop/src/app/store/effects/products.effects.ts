@@ -33,16 +33,4 @@ export class ProductsEffects {
       )
     )
   );
-
-  // Run this code when the addTodo or removeTodo action is dispatched
-  // saveProducts$ = createEffect(
-  //   () =>
-  //     this.actions$.pipe(
-  //       ofType(addProduct, deleteProduct),
-  //       withLatestFrom(this.store.select(selectAllProducts)),
-  //       switchMap(([action, products]) => from(this.productService.saveProduct(product)))
-  //     ),
-  //   // Most effects dispatch another action, but this one is just a "fire and forget" effect
-  //   {dispatch: false}
-  // );
 }

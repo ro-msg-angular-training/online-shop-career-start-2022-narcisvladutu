@@ -34,13 +34,9 @@ export class AddProductComponent implements OnInit {
 
   save() {
     if (this.form?.valid) {
-      const product = this.form.value;
-
-      this.store.dispatch(addProduct({product: product}));
-      alert("THE NEW PRODUCT WAS SAVED!")
-      this.goBack()
+      this.store.dispatch(addProduct({product: this.form.value}));
     } else {
-      alert("YOUR DATA AREN'T VALID !")
+      alert("YOUR DATA ISN'T VALID !")
     }
 
   }

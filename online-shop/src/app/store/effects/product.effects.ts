@@ -3,7 +3,7 @@ import {ProductService} from "../../services/product.service";
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {ProductModel} from "../../types/product.model";
-import {from, of} from 'rxjs';
+import {from, of, tap} from 'rxjs';
 import {
   addProduct,
   addProductFailure,
@@ -18,12 +18,14 @@ import {
   updateProductFailure,
   updateProductSuccess,
 } from '../actions/product.actions';
+import {Router} from "@angular/router";
 
 @Injectable()
 export class ProductEffects {
   constructor(
     private productsService: ProductService,
-    private actions$: Actions
+    private actions$: Actions,
+    private router: Router
   ) {
   }
 
@@ -39,6 +41,29 @@ export class ProductEffects {
         )
       )
     )
+  );
+
+  addProductSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(addProductSuccess),
+        tap(({product: product}) => {
+          alert(`${product.name} was added!`);
+          this.router.navigateByUrl('/products');
+        })
+      ),
+    { dispatch: false }
+  );
+
+  addProductFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(addProductFailure),
+        tap(() => {
+          alert('ADDED FAILED');
+        })
+      ),
+    { dispatch: false }
   );
 
   getProduct$ = createEffect(() =>
@@ -65,6 +90,29 @@ export class ProductEffects {
     )
   );
 
+  updateProductSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(updateProductSuccess),
+        tap(() => {
+          alert('Successfully updated!');
+          this.router.navigateByUrl('/products');
+        })
+      ),
+    { dispatch: false }
+  );
+
+  updateProductFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(updateProductFailure),
+        tap(() => {
+          alert('UPDATE FAILED');
+        })
+      ),
+    { dispatch: false }
+  );
+
   deleteProduct$ = createEffect(() =>
     this.actions$.pipe(
       ofType(deleteProduct),
@@ -75,5 +123,28 @@ export class ProductEffects {
         )
       )
     )
+  );
+
+  deleteProductSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(deleteProductSuccess),
+        tap(() => {
+          alert('Successfully deleted!');
+          this.router.navigateByUrl('/products');
+        })
+      ),
+    { dispatch: false }
+  );
+
+  deleteProductFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(deleteProductFailure),
+        tap(() => {
+          alert('DELETED FAILED');
+        })
+      ),
+    { dispatch: false }
   );
 }

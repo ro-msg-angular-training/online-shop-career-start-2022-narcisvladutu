@@ -4,12 +4,14 @@ import {ProductService} from "../../services/product.service";
 import {catchError, map, of, tap} from "rxjs";
 import {actualizeOrder, saveOrder, saveOrderFailure, saveOrderSuccess} from "../actions/order.actions";
 import {switchMap} from "rxjs/operators";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class OrderEffects {
   constructor(
     private productService: ProductService,
     private actions$: Actions,
+    private router: Router
   ) {
   }
 
@@ -33,5 +35,28 @@ export class OrderEffects {
         )
       )
     )
+  );
+
+  saveOrderSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(saveOrderSuccess),
+        tap(() => {
+          alert("YOUR ORDER HAS BEEN PLACED!");
+          this.router.navigateByUrl('/products');
+        })
+      ),
+    { dispatch: false }
+  );
+
+  saveOrderFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(saveOrderFailure),
+        tap(() => {
+          alert('ORDER FAILURE');
+        })
+      ),
+    { dispatch: false }
   );
 }

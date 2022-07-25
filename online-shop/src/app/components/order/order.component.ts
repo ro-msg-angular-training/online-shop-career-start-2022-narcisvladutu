@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {ProductModel} from "../../types/product.model";
 import {Router} from "@angular/router";
 import {take} from "rxjs";
 import {AppState} from "../../store/state/app.state";
@@ -7,8 +6,6 @@ import {Store} from "@ngrx/store";
 import {selectOrderProducts} from "../../store/selectors/order.selectors";
 import {ProductQuantityModel} from "../../types/ProductQuantity.model";
 import {saveOrder} from "../../store/actions/order.actions";
-import {getProduct} from "../../store/actions/product.actions";
-import {selectCurrentProduct} from "../../store/selectors/product.selectors";
 import {selectProductById} from "../../store/selectors/products..selectors";
 import {ProductModelDisplay} from "../../types/product-display.model";
 
@@ -22,7 +19,7 @@ export class OrderComponent implements OnInit {
 
   productsQuantity: ProductQuantityModel[] = []
 
-  constructor(private router: Router, private store: Store<AppState>) {
+  constructor(private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
@@ -31,7 +28,7 @@ export class OrderComponent implements OnInit {
 
     this.productsQuantity.forEach((x) => {
         for (let i = 1; i <= x.quantity; i++) {
-          this.store.select(selectProductById(x.productId)).subscribe((data) => {
+          this.store.select(selectProductById(x.productId)).pipe(take(1)).subscribe((data) => {
             if (data !== undefined) this.products.push(data)
           })
         }
@@ -41,11 +38,5 @@ export class OrderComponent implements OnInit {
 
   saveOrder() {
     this.store.dispatch(saveOrder({products: this.productsQuantity}));
-    alert("YOUR ORDER HAS BEEN PLACED!")
-    this.goBack();
-  }
-
-  goBack() {
-    this.router.navigateByUrl('/products');
   }
 }
