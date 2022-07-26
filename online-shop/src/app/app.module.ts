@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -35,6 +35,11 @@ import {orderReducer} from "./store/reducers/order.reducers";
 import {MatIconModule} from "@angular/material/icon";
 import {MatTableModule} from "@angular/material/table";
 
+import { registerLocaleData } from '@angular/common';
+
+import localeRo from '@angular/common/locales/ro';
+registerLocaleData(localeRo);
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,7 +74,9 @@ import {MatTableModule} from "@angular/material/table";
     StoreRouterConnectingModule.forRoot(),
     MatTableModule
   ],
-  providers: [],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'ro-RO'},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
