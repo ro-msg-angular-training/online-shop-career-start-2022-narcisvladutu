@@ -10,11 +10,11 @@ import {HttpClientModule} from "@angular/common/http";
 import {OrderComponent} from './components/order/order.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {EditProductComponent} from './components/edit-product/edit-product.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {ReactiveFormsModule, FormsModule} from "@angular/forms";
 
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
-import {MatButton, MatButtonModule} from "@angular/material/button";
+import {MatButtonModule} from "@angular/material/button";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatChipsModule} from "@angular/material/chips";
 import {AddProductComponent} from './components/add-product/add-product.component';
@@ -38,6 +38,7 @@ import {MatTableModule} from "@angular/material/table";
 import { registerLocaleData } from '@angular/common';
 
 import localeRo from '@angular/common/locales/ro';
+import {RouterTestingModule} from "@angular/router/testing";
 registerLocaleData(localeRo);
 
 @NgModule({
@@ -57,6 +58,7 @@ registerLocaleData(localeRo);
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    FormsModule,
     MatInputModule,
     MatCheckboxModule,
     MatChipsModule,
@@ -72,7 +74,8 @@ registerLocaleData(localeRo);
     }, {}),
     EffectsModule.forRoot([ProductsEffects, ProductEffects, AuthEffects, OrderEffects]),
     StoreRouterConnectingModule.forRoot(),
-    MatTableModule
+    MatTableModule,
+    RouterTestingModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'ro-RO'},

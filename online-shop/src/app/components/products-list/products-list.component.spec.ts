@@ -1,6 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ProductsListComponent } from './products-list.component';
+import {ProductsListComponent} from './products-list.component';
+import {RouterTestingModule} from "@angular/router/testing";
+import {StoreModule} from "@ngrx/store";
 
 describe('ProductsListComponent', () => {
   let component: ProductsListComponent;
@@ -8,9 +10,11 @@ describe('ProductsListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProductsListComponent ]
+      declarations: [ProductsListComponent],
+      imports: [RouterTestingModule,
+        StoreModule.forRoot({})],
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(ProductsListComponent);
     component = fixture.componentInstance;
