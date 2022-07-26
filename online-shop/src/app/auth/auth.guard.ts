@@ -23,7 +23,7 @@ export class AuthGuard implements CanActivate {
   checkLogin(): boolean | Promise<boolean> {
     let check: boolean = false;
     this.store.select(selectAuthCurrentUser).subscribe((data) => {
-      if (data !== null) check = true
+      if (data) check = true
     })
     if (check) {
       return true;

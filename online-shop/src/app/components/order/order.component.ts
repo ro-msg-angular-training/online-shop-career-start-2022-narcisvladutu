@@ -28,7 +28,7 @@ export class OrderComponent implements OnInit {
     this.productsQuantity.forEach((x) => {
         for (let i = 1; i <= x.quantity; i++) {
           this.store.select(selectProductById(x.productId)).pipe(take(1)).subscribe((data) => {
-            if (data !== undefined) this.products.push(data)
+            if (data) this.products.push(data)
           })
         }
       }

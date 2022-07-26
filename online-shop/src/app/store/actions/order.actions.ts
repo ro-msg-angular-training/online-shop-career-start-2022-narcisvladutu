@@ -7,4 +7,4 @@ export const saveOrder = createAction('[Checkout] Checkout', props<{ products: P
 
 export const saveOrderSuccess = createAction('[Checkout] Checkout Success');
 
-export const saveOrderFailure = createAction('[Checkout] Checkout Failure', props<{ error: any }>());
+export const saveOrderFailure = createAction('[Checkout] Checkout Failure', props<{ error: string }>());
