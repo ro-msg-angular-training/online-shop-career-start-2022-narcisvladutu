@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CredentialsModel} from "../../types/credentials.model";
-import {UserService} from "../../services/user.service";
 import {Router} from "@angular/router";
+import {Store} from "@ngrx/store";
+import {AppState} from "../../store/state/app.state";
+import {loginUser} from "../../store/actions/auth.actions";
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,8 @@ import {Router} from "@angular/router";
 export class LoginComponent implements OnInit {
   form: FormGroup | undefined;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router,
+              private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
@@ -25,14 +28,7 @@ export class LoginComponent implements OnInit {
   login() {
     if (!this.form?.invalid) {
       const credentials: CredentialsModel = {username: this.form?.value.username, password: this.form?.value.password}
-      this.userService.login(credentials).subscribe((data) => {
-        if (data.roles) {
-          this.router.navigateByUrl(`/products`);
-          alert("YOU ARE LOGGED")
-        }
-      }, () => {
-        alert("YOUR CREDENTIALS ARE NOT CORRECT")
-      })
+      this.store.dispatch(loginUser({userCredentials: credentials}))
     } else {
       alert(
         "YOUR CREDENTIALS ARE NOT CORRECT"

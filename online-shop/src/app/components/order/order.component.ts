@@ -1,9 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {OrderModel} from "../../types/order.model";
-import {ProductService} from "../../services/product.service";
-import {ProductModel} from "../../types/product.model";
-import {Router} from "@angular/router";
-import {forkJoin, map} from "rxjs";
+import {take} from "rxjs";
+import {AppState} from "../../store/state/app.state";
+import {Store} from "@ngrx/store";
+import {selectOrderProducts} from "../../store/selectors/order.selectors";
+import {ProductQuantityModel} from "../../types/ProductQuantity.model";
+import {saveOrder} from "../../store/actions/order.actions";
+import {selectProductById} from "../../store/selectors/products..selectors";
+import {ProductModelDisplay} from "../../types/product-display.model";
 
 @Component({
   selector: 'app-order',
@@ -11,52 +14,28 @@ import {forkJoin, map} from "rxjs";
   styleUrls: ['./order.component.scss']
 })
 export class OrderComponent implements OnInit {
+  products: ProductModelDisplay[] = [];
 
-  order: OrderModel = {products: []};
+  productsQuantity: ProductQuantityModel[] = []
 
-  products: ProductModel[] = [];
-
-  constructor(private productService: ProductService, private router: Router) {
+  constructor(private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
-    this.order = this.productService.getOrder();
+    this.store.select(selectOrderProducts).pipe(take(1))
+      .subscribe((data) => this.productsQuantity = data)
 
-    // I'll keep it for the moment
-    // this.order.products.forEach((x) => {
-    //     for (let i = 1; i <= x.quantity; i++) {
-    //       this.productService.getProductByID(x.productId).subscribe((data) => {
-    //           let product = <ProductModel>data;
-    //           this.products.push(product);
-    //         }
-    //       )
-    //     }
-    //   }
-    // )
-
-    this.order.products.forEach((x) => {
+    this.productsQuantity.forEach((x) => {
         for (let i = 1; i <= x.quantity; i++) {
-          const observable = forkJoin(this.productService.getProductByID(x.productId).pipe(map((data) => {
-              return <ProductModel>data;
-            }
-          )))
-          observable.subscribe((data) => {
-            this.products.push(...data)
+          this.store.select(selectProductById(x.productId)).pipe(take(1)).subscribe((data) => {
+            if (data) this.products.push(data)
           })
         }
       }
     )
-
   }
 
   saveOrder() {
-    this.productService.saveOrder().subscribe(() => {
-      alert(`Your order has been placed!`);
-      this.goBack()
-    });
-  }
-
-  goBack() {
-    this.router.navigateByUrl('/products');
+    this.store.dispatch(saveOrder({products: this.productsQuantity}));
   }
 }

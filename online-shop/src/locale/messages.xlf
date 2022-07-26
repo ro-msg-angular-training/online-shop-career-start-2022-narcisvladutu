@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="918635658016901976" datatype="html">
+        <source>CART</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/products-list/products-list.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="990372924123009530" datatype="html">
+        <source>ADD PRODUCT TO CART</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/products-list/products-list.component.html</context>
+          <context context-type="linenumber">8,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8036189655241788338" datatype="html">
+        <source>ADD PRODUCT TO CATALOGUE</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/products-list/products-list.component.html</context>
+          <context context-type="linenumber">12,13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8914839691101509115" datatype="html">
+        <source>CATEGORY</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/products-list/products-list.component.html</context>
+          <context context-type="linenumber">17,18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8941930295596240146" datatype="html">
+        <source>NAME</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/products-list/products-list.component.html</context>
+          <context context-type="linenumber">18,19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5815829224810161876" datatype="html">
+        <source>PRICE</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/products-list/products-list.component.html</context>
+          <context context-type="linenumber">19,20</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
