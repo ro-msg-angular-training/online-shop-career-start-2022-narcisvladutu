@@ -43,7 +43,7 @@ export class OrderEffects {
         ofType(saveOrderSuccess),
         tap(() => {
           alert("YOUR ORDER HAS BEEN PLACED!");
-          this.router.navigateByUrl('/products').then();
+          this.router.navigateByUrl('/products');
         })
       ),
     { dispatch: false }

@@ -17,10 +17,12 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-    return this.checkLogin();
+    const url: string = state.url;
+
+    return this.checkLogin(url);
   }
 
-  checkLogin(): boolean | Promise<boolean> {
+  checkLogin(url: string): boolean | Promise<boolean> {
     let check: boolean = false;
     this.store.select(selectAuthCurrentUser).subscribe((data) => {
       if (data) check = true

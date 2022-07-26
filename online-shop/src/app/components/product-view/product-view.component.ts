@@ -48,6 +48,6 @@ export class ProductViewComponent implements OnInit {
 
   goBack() {
     this.productSubscription?.unsubscribe()
-    this.router.navigateByUrl('/products').then()
+    this.router.navigateByUrl('/products')
   }
 }

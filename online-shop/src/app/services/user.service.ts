@@ -16,6 +16,7 @@ export class UserService {
   login(credentials: CredentialsModel): Observable<User> {
     return this.http.post<User>(`${environment.url}/login`, credentials).pipe(tap((user) => {
       {
+
         localStorage.setItem("username", user.username)
       }
     }))

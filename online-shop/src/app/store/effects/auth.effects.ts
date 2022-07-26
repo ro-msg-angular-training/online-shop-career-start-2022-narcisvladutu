@@ -33,7 +33,7 @@ export class AuthEffects {
         ofType(loginUserSuccess),
         tap((props) => {
           alert("YOU ARE LOGGED IN!")
-          this.router.navigateByUrl('/products').then();
+          this.router.navigateByUrl('/products');
         })
       ),
     { dispatch: false }
