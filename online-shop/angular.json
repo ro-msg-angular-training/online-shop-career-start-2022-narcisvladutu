@@ -24,7 +24,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "localize": [
-              "en-US"
+              "ro-RO"
             ],
             "outputPath": "dist/online-shop",
             "index": "src/index.html",
